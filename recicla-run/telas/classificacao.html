@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReciclaRun - Classificação</title>
+    <link rel="icon" type="image/x-icon" href="../public/assets/imagens/logo.png">
+
+    <link rel="stylesheet" href="../css/estilo.css">
+    <link rel="stylesheet" href="../css/classificacao.css">
+</head>
+
+<body>
+
+    <audio id="musicaDistribuicao" autoplay loop>
+        <source src="../public/assets/sons/distribuicao.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+    <div id="classification-background">
+
+        <div id="classification-container">
+
+            <div id="lixeiras-area" class="glass-panel">
+
+                <h2 class="section-title">LIXEIRAS</h2>
+
+                <div class="lixeiras-grid">
+                    <div class="lixeira-target" data-type="metal">
+                        <img src="../public/assets/imagens/lixeiras/LixeiraAmarela.png" alt="Lixeira de Metal">
+                        <p class="lixeira-text">METAL</p>
+                    </div>
+
+                    <div class="lixeira-target" data-type="plastic">
+                        <img src="../public/assets/imagens/lixeiras/LixeiraVermelha.png" alt="Lixeira de Plástico">
+                        <p class="lixeira-text">PLÁSTICO</p>
+                    </div>
+
+                    <div class="lixeira-target" data-type="paper">
+                        <img src="../public/assets/imagens/lixeiras/LixeiraAzul.png" alt="Lixeira de Papel">
+                        <p class="lixeira-text">PAPEL</p>
+                    </div>
+
+                    <div class="lixeira-target" data-type="glass">
+                        <img src="../public/assets/imagens/lixeiras/LixeiraVerde.png" alt="Lixeira de Vidro">
+                        <p class="lixeira-text">VIDRO</p>
+                    </div>
+
+                    <div class="lixeira-target" data-type="organic">
+                        <img src="../public/assets/imagens/lixeiras/LixeiraMarrom.png" alt="Lixeira de Orgânico">
+                        <p class="lixeira-text">ORGÂNICO</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="inventory-area" class="glass-panel">
+                <h2 class="section-title">INVENTÁRIO</h2>
+
+                <div id="lixos-inventario">
+                </div>
+
+                <button id="finish-classification" class="btn-content btn-grande-content hidden">Lixos distribuídos com
+                    sucesso!</button>
+            </div>
+
+        </div>
+
+        <div id="educational-message-area" class="glass-panel hidden">
+        </div>
+
+
+    </div>
+
+    <script src="../js/inventario.js"></script>
+</body>
+
+</html>

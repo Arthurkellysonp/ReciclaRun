@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recicla Run | Jogo - Oceano</title>
+    <link rel="icon" type="image/x-icon" href="../public/assets/imagens/logo.png">
+
+    <link rel="stylesheet" href="../css/jogo-oceano.css">
+    <link rel="stylesheet" href="../css/oceano-poluido.css">
+</head>
+
+<body class="game-body">
+
+    <div id="countdown-overlay" class="hidden">
+        <h1 id="countdown-text">3</h1>
+    </div>
+
+    <div class="tela-inicio-fullscreen">
+
+        <div id="game-viewport-modern" class="cenario-oceano-poluido">
+
+            <div id="hud-container-flex">
+
+                <div id="game-hud">
+                    <span id="score">Lixos Coletados: 0</span>
+                </div>
+
+                <div id="trash-counters">
+
+                    <div class="counter-item" id="plastic-count">
+                        <img src="../public/assets/imagens/lixos/GarrafaPlastico.png" alt="Plástico">
+                        <span class="count-value">0</span>
+                    </div>
+
+                    <div class="counter-item" id="metal-count">
+                        <img src="../public/assets/imagens/lixos/LataMetal.png" alt="Metal">
+                        <span class="count-value">0</span>
+                    </div>
+
+                    <div class="counter-item" id="paper-count">
+                        <img src="../public/assets/imagens/lixos/BolaPapel.png" alt="Papel">
+                        <span class="count-value">0</span>
+                    </div>
+
+                    <div class="counter-item" id="glass-count">
+                        <img src="../public/assets/imagens/lixos/PoteVidro.png" alt="Vidro">
+                        <span class="count-value">0</span>
+                    </div>
+
+                    <div class="counter-item" id="organic-count">
+                        <img src="../public/assets/imagens/lixos/CascaBanana.png" alt="Orgânico">
+                        <span class="count-value">0</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="game-area-oceano">
+                <div id="player" class="jogador"></div>
+            </div>
+
+            <div id="game-over-modal" class="modal-personalizado hidden">
+                <div class="modal-content">
+                    <h2>GAME OVER!</h2>
+                    <p>Você atingiu um obstáculo. Seus lixos coletados foram perdidos.</p>
+                    <button id="restart-button">REINICIAR FASE</button>
+                </div>
+            </div>
+
+            <div id="phase-complete-message" class="modal-personalizado hidden">
+                <div class="modal-content">
+                    <h2>FASE CONCLUÍDA!</h2>
+                    <p>Você coletou todos os lixos necessários. Redirecionando para a Classificação...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/lixo.js"></script>
+    <script src="../js/obstaculo.js"></script>
+    <script src="../js/jogador.js"></script>
+    
+    <script src="../js/jogo-oceano.js"></script> 
+
+</body>
+
+</html>

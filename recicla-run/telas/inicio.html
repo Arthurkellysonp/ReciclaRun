@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recicla Run | Início</title>
+    <link rel="stylesheet" href="../css/inicio.css">
+    <link rel="icon" type="image/x-icon" href="../public/assets/imagens/logo.png">
+</head>
+
+<body>
+
+    <audio id="musicaInicio" autoplay loop>
+        <source src="../public/assets/sons/inicio.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+    <div class="tela-inicio-fullscreen">
+
+        <div id="game-viewport-modern">
+
+            <header class="header-content">
+                <div class="logo-container">
+                    <img src="../public/assets/imagens/logo.png" alt="Logo Recicla Run" class="logo-imagem">
+                    <h1 class="logo-texto">RECICLA RUN</h1>
+                </div>
+                <p class="subtitulo">Sua missão ecológica começa aqui!</p>
+            </header>
+
+            <div class="cards-lado-a-lado">
+
+                <div class="card-modern card-missao">
+                    <div class="card-icone">🎯</div>
+                    <h3>Sua Missão e Impacto</h3>
+                    <p>Colete resíduos em 3 cenários (Urbano, Floresta, Oceano) e descarte corretamente, restaurando o
+                        meio ambiente.</p>
+                    <div class="detalhe-missao">
+                        <span class="ods-tag">ODS 11: Cidades e Comunidades Sustentáveis</span>
+                        <span class="ods-tag">ODS 14: Vida na Água</span>
+                        <span class="ods-tag">ODS 15: Vida Terrestre</span>
+                    </div>
+                </div>
+
+                <div class="card-modern card-controles">
+                    <div class="card-icone">🎮</div>
+                    <h3>Controles do Jogo</h3>
+                    <div class="controles-grid-content">
+
+                        <div class="controle-item-content">
+                            <div class="tecla-content tecla-espaco"><span>ESPAÇO</span></div>
+                            <span class="controle-descricao">Pular</span>
+                        </div>
+
+                        <div class="controle-item-content controle-drag-drop">
+                            <div class="tecla-content tecla-mouse"><span>🖱️</span></div>
+                            <span class="controle-descricao">Arrastar e Soltar (Descarte de Lixos)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-modern card-lixos">
+                    <div class="card-icone">🗑️</div>
+                    <h3>Guia de Resíduos</h3>
+                    <div class="lixos-grid-content">
+                        <div class="lixo-item-content">
+                            <img src="../public/assets/imagens/lixos/GarrafaPlastico.png" alt="Plástico">
+                            <span class="lixo-nome">Plástico</span>
+                        </div>
+                        <div class="lixo-item-content">
+                            <img src="../public/assets/imagens/lixos/LataMetal.png" alt="Metal">
+                            <span class="lixo-nome">Metal</span>
+                        </div>
+                        <div class="lixo-item-content">
+                            <img src="../public/assets/imagens/lixos/BolaPapel.png" alt="Papel">
+                            <span class="lixo-nome">Papel</span>
+                        </div>
+                        <div class="lixo-item-content">
+                            <img src="../public/assets/imagens/lixos/PoteVidro.png" alt="Vidro">
+                            <span class="lixo-nome">Vidro</span>
+                        </div>
+                        <div class="lixo-item-content">
+                            <img src="../public/assets/imagens/lixos/CascaBanana.png" alt="Orgânico">
+                            <span class="lixo-nome">Orgânico</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br>
+            <div class="botao-container-content">
+                <button id="btnIniciar" class="btn-content btn-grande-content" onclick="iniciarJogo()">
+                    <span class="btn-icone">🚀</span>
+                    <span class="btn-texto">Iniciar</span>
+                    <span class="btn-efeito"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function iniciarJogo() {
+            window.location.href = 'jogo-urbano.html';
+        }
+    </script>
+</body>
+
+</html>

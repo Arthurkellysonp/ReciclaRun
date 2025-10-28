@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recicla Run | Missão Concluída</title>
+    <link rel="stylesheet" href="../css/final.css">
+    <link rel="icon" type="image/x-icon" href="../public/assets/imagens/logo.png">
+</head>
+
+<body>
+
+    <audio id="musicaFinal" autoplay loop>
+        <source src="../public/assets/sons/final.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+    <div class="tela-final-fullscreen">
+
+        <div id="game-viewport-final">
+
+            <header class="header-content">
+                <div class="logo-container">
+                    <img src="../public/assets/imagens/logo.png" alt="Logo Recicla Run" class="logo-imagem">
+                    <h1 class="logo-texto">RECICLA RUN</h1>
+                </div>
+                <h2 class="titulo-final">🎉 MISSÃO COMPLETA! 🎉</h2>
+                <p class="subtitulo-final">Seu impacto ecológico em três cenários:</p>
+            </header>
+
+            <div class="conquistas-grid">
+
+                <div class="card-comparacao">
+                    <div class="cenario-titulo">URBANO</div>
+                    <div class="before-after-card">
+                        <div class="cenario-imagem cenario-depois cenario-urbano-depois"></div>
+                        <div class="cenario-imagem cenario-antes cenario-urbano-antes"></div>
+                        <input type="range" min="0" max="100" value="50" class="slider-comparacao"
+                            aria-label="Comparar antes e depois">
+                        <div class="divisor-slider"></div>
+                    </div>
+                </div>
+
+                <div class="card-comparacao">
+                    <div class="cenario-titulo">FLORESTAL</div>
+                    <div class="before-after-card">
+                        <div class="cenario-imagem cenario-depois cenario-florestal-depois"></div>
+                        <div class="cenario-imagem cenario-antes cenario-florestal-antes"></div>
+                        <input type="range" min="0" max="100" value="50" class="slider-comparacao"
+                            aria-label="Comparar antes e depois">
+                        <div class="divisor-slider"></div>
+                    </div>
+                </div>
+
+                <div class="card-comparacao">
+                    <div class="cenario-titulo">OCEÂNICO</div>
+                    <div class="before-after-card">
+                        <div class="cenario-imagem cenario-depois cenario-oceano-depois"></div>
+                        <div class="cenario-imagem cenario-antes cenario-oceano-antes"></div>
+                        <input type="range" min="0" max="100" value="50" class="slider-comparacao"
+                            aria-label="Comparar antes e depois">
+                        <div class="divisor-slider"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="botao-container-content">
+                <button id="btnReiniciar" class="btn-content btn-grande-content" onclick="reiniciarJogo()">
+                    <span class="btn-icone">🏠</span>
+                    <span class="btn-texto">VOLTAR AO INÍCIO</span>
+                    <span class="btn-efeito"></span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function reiniciarJogo() {
+            // Pausa a música ao sair da tela
+            // const musica = document.getElementById('musicaFinal');
+            // if (musica) musica.pause();
+
+            localStorage.clear();
+            window.location.href = '../telas/inicio.html';
+        }
+
+        document.querySelectorAll('.before-after-card').forEach(container => {
+            const slider = container.querySelector('.slider-comparacao');
+            // 'antes' é a imagem que será controlada (Poluída, na frente)
+            const antes = container.querySelector('.cenario-antes');
+            const divisor = container.querySelector('.divisor-slider');
+
+            const updateComparison = (value) => {
+                // Controla a largura da imagem poluída
+                antes.style.width = value + '%';
+                // O divisor se move junto
+                divisor.style.left = value + '%';
+            };
+
+            slider.addEventListener('input', (e) => {
+                updateComparison(e.target.value);
+            });
+
+            updateComparison(slider.value);
+        });
+
+    </script>
+</body>
+
+</html>
