@@ -1,0 +1,45 @@
+/*
+ * Arquivo: css/urbano-limpo.css - Estilo para o Cenário Urbano Limpo.
+ * Objetivo: Aplicar o fundo, a animação de rolagem e o sprite do jogador.
+ */
+
+/* ------------------------------------------------ */
+/* ANIMAÇÃO DE ROLAGEM DO CENÁRIO */
+/* ------------------------------------------------ */
+@keyframes moveBackgroundLimpo {
+    /* Rola para a esquerda para simular o avanço do jogador */
+    from {
+        background-position-x: 0;
+    }
+    to {
+        background-position-x: -170%;
+    }
+}
+
+/* ------------------------------------------------ */
+/* CONFIGURAÇÃO DO CENÁRIO LIMPO */
+/* ------------------------------------------------ */
+/* Usa a nova classe cenario-urbano-limpo no viewport para aplicar o cenário à game-area */
+.cenario-urbano-limpo #game-area-transicao {
+    /* MUDANÇA NO ID: Usando #game-area-transicao da tela fase-concluida.html */
+    
+    /* === DEBUG: GARANTE QUE O CONTÊINER TENHA ALTURA VISÍVEL === */
+    /* Se a cor de fundo aparecer, mas a imagem não, o problema é o caminho (url) */
+    /* Se nada aparecer, o problema é que a classe .cenario-urbano-limpo não foi aplicada ao <body> */
+    height: 100vh;
+    width: 100vw;
+    background-color: #333333; /* Cor sólida para verificar o contêiner */
+    /* ========================================================== */
+
+    /* === MUDANÇA ESSENCIAL: Imagem do cenário limpo === */
+    background-image: url('../public/assets/imagens/cenarios/UrbanoLimpo.png');
+    
+    /* MANTIDO: Garante que a altura seja 100% e a largura seja calculada automaticamente */
+    background-size: auto 100%;
+    background-repeat: repeat-x;
+    /* ESSENCIAL: Garante que a imagem se repita na horizontal */
+    background-position: 0% bottom;
+
+    /* Aplica a animação: 10s é a velocidade padrão */
+    animation: moveBackgroundLimpo 10s linear infinite;
+}

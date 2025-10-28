@@ -1,0 +1,376 @@
+/*
+ * Arquivo: css/jogo-florestal.css - Estilos globais para a tela de jogo FLORESTAL.
+ * Objetivo: Anular o Glassmorphism do inicio.css e definir a estrutura do HUD.
+ */
+
+/* ------------------------------------------------ */
+/* CORREÇÃO GLOBAL E PROPORÇÃO FULLSCREEN (AJUSTE DE CORES) */
+/* ------------------------------------------------ */
+
+/* Força o body da tela de jogo a usar o fundo gradiente e OCUPAR A TELA TODA */
+body.game-body {
+    /* MUDANÇA: Gradiente em tons de verde e terra (Floresta) */
+    background: linear-gradient(135deg, #38761d 0%, #6aa84f 50%, #93c47d 100%) !important;
+
+    /* Layout Fullscreen (Mantido) */
+    display: block;
+    align-items: unset;
+    justify-content: unset;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+    animation: none !important;
+}
+
+/* Garante que a área de fundo (tela-inicio-fullscreen) cubra a tela (Mantido) */
+.tela-inicio-fullscreen {
+    background-color: transparent !important;
+    background-image: none !important;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    overflow: hidden;
+    z-index: 5;
+}
+
+/* Zera os estilos Glassmorphism e FORÇA O VIEWPORT A SER FULLSCREEN (Mantido) */
+#game-viewport-modern {
+    /* Anula o Glassmorphism */
+    background: transparent !important;
+    backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    /* Ocupa a tela toda */
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+
+    /* Remove a borda arredondada que restringe a tela */
+    border-radius: 0;
+}
+
+
+/* ------------------------------------------------ */
+/* ÁREA DE JOGO BASE (AJUSTE DE ID) */
+/* ------------------------------------------------ */
+#game-area-florestal {
+    /* MUDANÇA: ID para a fase Florestal */
+    width: 100%;
+    /* Altura da área de jogo (abaixo do HUD de 50px) */
+    height: calc(100% - 50px);
+    position: absolute;
+    top: 50px;
+    /* Coloca a área de jogo abaixo do HUD */
+    left: 0;
+    overflow: hidden;
+    z-index: 10;
+}
+
+/* Estilização dos itens de lixo (Mantido) */
+.lixo-item {
+    transition: none;
+    z-index: 20;
+    /* Mantido: Brilho padrão para destaque */
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.442));
+}
+
+/* ------------------------------------------------ */
+/* JOGADOR BASE (Mantido) */
+/* ------------------------------------------------ */
+.jogador {
+    position: absolute;
+
+    bottom: 50px;
+    /* 🎯 VALOR PADRÃO IGUAL AO minBottom do JS */
+    left: 15%;
+
+    width: 250px;
+    height: 250px;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 15;
+
+    transition: transform 0.1s ease-out, bottom 0.1s ease-out;
+}
+
+/* ------------------------------------------------ */
+/* HEAD-UP DISPLAY (HUD) - GLOBAL (Mantido) */
+/* ------------------------------------------------ */
+#hud-container-flex {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(128, 128, 128, 0.8);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 30;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+#game-hud {
+    padding-left: 30px;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 1.2em;
+    font-weight: 700;
+    height: 100%;
+}
+
+#score {
+    padding: 5px 10px;
+    border-radius: 8px;
+    /* MUDANÇA: Cor de destaque do score para um verde floresta */
+    background: rgba(106, 179, 100, 0.7);
+}
+
+
+/* ------------------------------------------------ */
+/* CONTADORES DE LIXO POR TIPO (Mantido) */
+/* ------------------------------------------------ */
+#trash-counters {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-right: 30px;
+}
+
+.counter-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    white-space: nowrap;
+}
+
+.counter-item img {
+    height: 30px;
+    width: 30px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+}
+
+.count-value {
+    color: white;
+    font-size: 1.5em;
+    font-weight: 800;
+    text-shadow: 0 0 3px black;
+}
+
+
+/* ------------------------------------------------ */
+/* RESPONSIVIDADE (Mantido) */
+/* ------------------------------------------------ */
+@media (max-width: 1024px) {
+    #game-viewport-modern {
+        width: 100vw;
+        height: 100vh;
+        aspect-ratio: unset;
+        border-radius: 0;
+    }
+
+    #hud-container-flex {
+        border-radius: 0;
+        height: 40px;
+    }
+
+    #game-hud {
+        font-size: 1em;
+        padding-left: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    #trash-counters {
+        display: none;
+    }
+}
+
+/* ========================================================= */
+/* ESTILOS DO MODAL DE COLISÃO E FIM DE FASE (Mantido) */
+/* ========================================================= */
+
+.modal-personalizado {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Fundo com Glassmorphism (efeito de pausa no jogo) */
+    background-color: rgba(56, 118, 29, 0.4);
+    /* MUDANÇA: Cor base para um verde escuro floresta, transparente */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.modal-personalizado.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.modal-content {
+    width: 90%;
+    max-width: 450px;
+    padding: 35px;
+
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 25px;
+
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+
+    text-align: center;
+    color: #2c3e50;
+
+    transform: scale(1.05);
+    animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ------------------ */
+/* ELEMENTOS INTERNOS */
+/* ------------------ */
+
+.modal-content h2 {
+    font-size: 2.2em;
+    font-weight: 900;
+    margin-bottom: 10px;
+
+    /* Cor de Alerta/Perigo (Mantida: Preto para Game Over) */
+    background: linear-gradient(90deg, #000000, #000000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.modal-content p {
+    font-size: 1em;
+    font-weight: 500;
+    color: #5a6c7d;
+    margin-bottom: 30px;
+}
+
+/* ------------------ */
+/* BOTÃO DE REINÍCIO */
+/* ------------------ */
+
+#restart-button {
+    position: relative;
+
+    /* MUDANÇA: Gradiente e Estilo igual ao botão de Início, com cores da floresta */
+    background: linear-gradient(135deg, #6aa84f, #38761d);
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    font-size: 1.15em;
+    font-weight: 800;
+    border-radius: 30px;
+    cursor: pointer;
+    overflow: hidden;
+
+    transition: all 0.3s ease;
+
+    /* Sombra Verde Suave */
+    box-shadow: 0 5px 15px rgba(106, 168, 79, 0.5);
+    text-transform: uppercase;
+}
+
+#restart-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(106, 168, 79, 0.7);
+    background: linear-gradient(135deg, #38761d, #6aa84f);
+}
+
+#restart-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 10px rgba(106, 168, 79, 0.5);
+}
+
+/* ---------------------------------------------------- */
+/* ESTILOS PARA O CONTADOR REGRESSIVO (Mantido) */
+/* ---------------------------------------------------- */
+
+#countdown-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+}
+
+#countdown-text {
+    font-size: 8em;
+    font-weight: 900;
+    color: white;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+    margin: 0;
+    animation: pulse 0.8s ease-out;
+}
+
+/* Animação de pulso para cada número/GO! (Mantido) */
+@keyframes pulse {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Classe de utilidade para ocultar, usada no HTML e JS (Mantido) */
+.hidden {
+    display: none !important;
+}

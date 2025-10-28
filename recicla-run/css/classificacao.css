@@ -1,0 +1,259 @@
+/* Estilos para a tela de Classificação de Lixos (Fase 2) */
+
+/* ---------------------------------------------------- */
+/* CONTAINER GERAL E EFEITO DE FUNDO */
+/* ---------------------------------------------------- */
+
+/* RESET BÁSICO - Zera as margens e paddings padrão do navegador */
+html, body {
+    margin: 0; 
+    padding: 0;
+    /* Adicionar overflow-x: hidden; previne barras de rolagem horizontais indesejadas */
+    overflow-x: hidden; 
+}
+
+#classification-background {
+    /* REMOVIDO o background fixo. Agora ele será definido por classes (ex: .bg-urbano-poluido) */
+    
+    /* MODIFICADO: background-size cover removido para permitir o repeat-x */
+    background-position: 0% bottom;
+    background-size: auto 100%; 
+    
+    /* ESSENCIAL: Repete HORIZONTALMENTE */
+    background-repeat: repeat-x; 
+    
+    background-color: #1a535c; /* Cor de fallback caso nenhuma imagem carregue */
+    
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    overflow: hidden;
+
+    /* NOVO: APLICA A ANIMAÇÃO. Use 5s se quiser rápido como no jogo. */
+    animation: moveBackgroundPoluido 120s linear infinite; 
+}
+
+/* === NOVAS CLASSES PARA BACKGROUND POR FASE === */
+/* Baseado nas suas imagens: UrbanoPoluido.png, FlorestalDesmatado.png, OceanoPoluido.png */
+
+.bg-urbano-poluido {
+    background-image: url('../public/assets/imagens/cenarios/UrbanoPoluido.png');
+}
+
+.bg-florestal-poluido {
+    background-image: url('../public/assets/imagens/cenarios/FlorestalDesmatado.png'); 
+}
+
+.bg-oceano-poluido {
+    background-image: url('../public/assets/imagens/cenarios/OceanoPoluido.png'); 
+}
+
+/* ============================================== */
+
+#classification-container {
+    display: flex;
+    gap: 30px; 
+    width: 90%;
+    max-width: 1300px;
+    height: 80vh; 
+    margin-bottom: 20px;
+    padding: 30px;
+}
+
+/* Efeito Glassmorphism para os painéis principais */
+.glass-panel {
+    background: #ffffff26; 
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3); 
+    border-radius: 25px; 
+    box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4); 
+    padding: 25px;
+    transition: box-shadow 0.3s ease;
+}
+
+.section-title {
+    font-family: inherit; /* Garante que a fonte seja consistente */
+    font-size: 1.8em;
+    font-weight: 800;
+    color: #ffffff;
+    border-bottom: 2px solid rgba(26, 83, 92, 0.3);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+/* ---------------------------------------------------- */
+/* ÁREA DAS LIXEIRAS (ESQUERDA) - AGORA EM CARDS LADO A LADO */
+/* ---------------------------------------------------- */
+#lixeiras-area {
+    flex: 2; 
+    display: flex;
+    flex-direction: column; /* Para empilhar o título e o grid de lixeiras */
+    align-items: center;
+    padding: 25px; /* Adicionado padding para respeitar o glass-panel */
+}
+
+/* NOVO: Estilo para o grid de lixeiras (o .lixeiras-grid no HTML) */
+.lixeiras-grid {
+    display: flex;
+    flex-direction: row; /* Coloca os cards de lixeira lado a lado */
+    flex-wrap: wrap; /* Permite quebras de linha se não houver espaço */
+    justify-content: space-around; /* Distribui os cards uniformemente */
+    align-items: flex-start; /* Alinha os cards ao topo */
+    gap: 5px; /* Espaçamento entre os cards das lixeiras */
+    width: 100%; /* Ocupa a largura total disponível */
+    flex-grow: 1; /* Permite que o grid ocupe o espaço restante */
+}
+
+.lixeira-target {
+    /* TRANSFORMA CADA LIXEIRA EM UM CARD NO ESTILO SOLICITADO */
+    display: flex;
+    flex-direction: column; /* Ícone em cima, texto em baixo */
+    align-items: center; /* Centraliza o conteúdo (ícone e texto) */
+    justify-content: center; /* Centraliza verticalmente o conteúdo */
+    
+    width: 180px; /* Largura fixa para cada card de lixeira (como os quadrados vermelhos) */
+    min-height: 180px; /* Altura mínima para que todos tenham um tamanho similar */
+    padding: 0px; /* Padding interno do card */
+    gap: 0px; /* Espaço entre o ícone e o texto */
+    
+    background: rgba(255, 255, 255, 0); 
+    border: 3px dashed transparent; /* Borda dashed inicial */
+    border-radius: 15px; 
+    transition: all 0.3s ease;
+    cursor: default;
+    text-align: center;
+}
+
+.lixeira-target img {
+    height: 180px; /* Ícone grande */
+    width: auto;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4));
+    transition: transform 0.3s;
+}
+
+.lixeira-target:hover {
+    transform: translateY(-3px); /* Leve elevação no hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.lixeira-text {
+    font-weight: bold; 
+    color: #ffffff; 
+    text-shadow: 0 1px 1px rgb(255, 255, 255);
+    font-size: 1.1em; 
+    margin: 0;
+}
+
+/* Efeito ao arrastar sobre a lixeira */
+.lixeira-target.drag-over {
+    border-color: #f39c12; /* Borda laranja para destaque de drag-over */
+    background: rgba(255, 255, 255, 0.3); /* Ajustado para ser menos branco e mais vidro */
+    transform: scale(1.02);
+    box-shadow: 0 5px 20px rgba(243, 156, 18, 0.5); /* Sombra mais vibrante ao arrastar */
+}
+
+/* ---------------------------------------------------- */
+/* ÁREA DO INVENTÁRIO (DIREITA) */
+/* ---------------------------------------------------- */
+#inventory-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-top: 25px; /* Mantém o padding consistente */
+}
+
+#inventory-area h2 {
+    color: #ffffff;
+    margin-bottom: 20px; 
+    border-bottom: 2px solid rgba(26, 83, 92, 0.3);
+    padding-bottom: 10px; 
+    font-size: 1.5em; 
+    font-weight: 800;
+    text-align: center; /* Centraliza o título do inventário */
+}
+
+#lixos-inventario {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding-top: 10px;
+    flex-grow: 1; 
+    overflow-y: auto;
+    scrollbar-width: thin; 
+    scrollbar-color: rgba(26, 83, 92, 0.5) transparent;
+}
+
+.draggable-trash {
+    width: 90px; 
+    height: 90px;
+    object-fit: contain;
+    cursor: grab;
+    transition: transform 0.2s, opacity 0.3s;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4)); 
+    border-radius: 8px;
+}
+
+.draggable-trash:hover {
+    transform: scale(1.1); 
+    z-index: 10;
+}
+
+.dragging {
+    opacity: 0.4;
+    transform: scale(0.8);
+}
+
+/* ---------------------------------------------------- */
+/* MENSAGEM EDUCATIVA E BOTÃO FINAL */
+/* ---------------------------------------------------- */
+
+#educational-message-area {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    width: 90%;
+    max-width: 450px;
+    padding: 30px;
+    background: linear-gradient(135deg, #ac5000 0%, #d35400 100%); 
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8); 
+    animation: fadeIn 0.5s;
+}
+
+#educational-message-area p {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+#finish-classification {
+    background: linear-gradient(135deg, #2ecc7000, #27ae5f00); 
+    color: white;
+    border: none;
+    padding: 18px 45px; 
+    font-size: 1.3em; 
+    font-weight: 800;
+    border-radius: 30px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -40%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
+}

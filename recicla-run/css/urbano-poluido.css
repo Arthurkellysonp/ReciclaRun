@@ -1,0 +1,43 @@
+/*
+ * Arquivo: css/urbano-poluido.css - Estilo para o Cenário Urbano Poluído.
+ * Objetivo: Aplicar o fundo, a animação de rolagem e o sprite do jogador.
+ */
+
+/* ------------------------------------------------ */
+/* ANIMAÇÃO DE ROLAGEM DO CENÁRIO (AJUSTADA) */
+/* ------------------------------------------------ */
+@keyframes moveBackgroundPoluido {
+    /* Rola para a esquerda para simular o avanço do jogador */
+    from { 
+        /* Começa na posição normal (início do primeiro tile) */
+        background-position-x: 0; 
+    }
+    to { 
+        /* Rola -100% (para a esquerda) da largura do contêiner. 
+           Com 'repeat-x', isso força uma transição suave para o próximo tile. */
+        background-position-x: -170%;   
+    }
+}
+
+/* ------------------------------------------------ */
+/* CONFIGURAÇÃO DO CENÁRIO POLUÍDO (AJUSTADA) */
+/* ------------------------------------------------ */
+/* Usa a classe no viewport para aplicar o cenário à game-area */
+.cenario-urbano-poluido #game-area-urbano {
+    background-image: url('../public/assets/imagens/cenarios/UrbanoPoluido.png'); 
+    
+    /* MANTIDO: Garante que a altura seja 100% e a largura seja calculada automaticamente */
+    background-size: auto 100%; 
+    background-repeat: repeat-x; /* ESSENCIAL: Garante que a imagem se repita na horizontal */
+    background-position: 0% bottom; 
+    
+    /* Aplica a animação: Altere 5s para controlar a velocidade. */
+    animation: moveBackgroundPoluido 5s linear infinite; 
+}
+
+/* ------------------------------------------------ */
+/* SPRITES DO JOGADOR NO CENÁRIO POLUÍDO */
+/* ------------------------------------------------ */
+.cenario-urbano-poluido .jogador {
+    background-image: url('../public/assets/imagens/personagem/PersonagemVoador.png'); 
+}

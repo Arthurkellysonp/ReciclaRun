@@ -1,0 +1,339 @@
+/*
+ * Arquivo: css/jogo-oceano.css - Estilos globais para a tela de jogo do Oceano.
+ * Objetivo: Configurar o fundo, o ID da área de jogo e manter a estrutura do HUD/Modal.
+ * NOTA: Este arquivo SUBSTITUI o jogo-urbano.css e deve ser carregado APENAS para a fase Oceano.
+ */
+
+/* ------------------------------------------------ */
+/* CORREÇÃO GLOBAL E PROPORÇÃO FULLSCREEN */
+/* ------------------------------------------------ */
+
+/* Força o body da tela de jogo a usar o fundo gradiente e OCUPAR A TELA TODA */
+body.game-body {
+    /* 🎯 MUDANÇA: Gradiente Aquático/Oceano */
+    background: linear-gradient(135deg, #005f73 0%, #0a9396 50%, #94d2bd 100%) !important;
+
+    /* Estilos de layout mantidos (fullscreen, sem margem, sem overflow) */
+    display: block;
+    align-items: unset;
+    justify-content: unset;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+    animation: none !important;
+}
+
+/* Garante que a área de fundo (tela-inicio-fullscreen) cubra a tela */
+.tela-inicio-fullscreen {
+    background-color: transparent !important;
+    background-image: none !important;
+
+    /* Estilos de layout mantidos */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    overflow: hidden;
+    z-index: 5;
+}
+
+/* Zera os estilos Glassmorphism e FORÇA O VIEWPORT A SER FULLSCREEN */
+#game-viewport-modern {
+    /* Anula o Glassmorphism */
+    background: transparent !important;
+    backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    /* Estilos de layout mantidos */
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+    border-radius: 0;
+}
+
+
+/* ------------------------------------------------ */
+/* ÁREA DE JOGO BASE (APENAS ESTRUTURA) */
+/* ------------------------------------------------ */
+#game-area-oceano { /* 🎯 MUDANÇA CRÍTICA: ID DA ÁREA DE JOGO */
+    width: 100%;
+    /* CORREÇÃO AQUI: Ajusta a altura da área de jogo (abaixo do HUD de 50px) */
+    height: calc(100% - 50px);
+    position: absolute;
+    top: 50px;
+    /* Coloca a área de jogo abaixo do HUD */
+    left: 0;
+    overflow: hidden;
+    z-index: 10;
+
+    /* 🎯 NOTA: O fundo poluído do oceano deve ser aplicado aqui ou na classe body,
+       dependendo de onde você está aplicando o cenário inicial. Se você usar o
+       `oceano-poluido.css` para o fundo, ele deve ser carregado junto.
+       Este arquivo (jogo-oceano.css) é apenas para a ESTRUTURA. */
+}
+
+/* NOVO: Estilização dos itens de lixo (mantida) */
+.lixo-item {
+    transition: none;
+    z-index: 20;
+    /* 🎯 AJUSTE: Filtro para dar um brilho aquático/submerso */
+    filter: drop-shadow(0 0 5px rgba(148, 210, 189, 0.6));
+}
+
+/* ------------------------------------------------ */
+/* JOGADOR BASE (CORRIGIDO: Tamanho e Posição) */
+/* ------------------------------------------------ */
+.jogador {
+    position: absolute;
+
+    /* Posição corrigida para a tela toda */
+    bottom: 50px;
+    left: 15%;
+
+    /* Tamanho e estilos mantidos */
+    width: 250px;
+    height: 250px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 15;
+    transition: transform 0.1s ease-out, bottom 0.1s ease-out;
+}
+
+/* ------------------------------------------------ */
+/* HEAD-UP DISPLAY (HUD) - GLOBAL (Mantido) */
+/* ------------------------------------------------ */
+#hud-container-flex {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* 🎯 AJUSTE: Cor do HUD para combinar com o oceano (azul escuro semi-transparente) */
+    background: rgba(0, 95, 115, 0.85); 
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 30;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+#game-hud {
+    padding-left: 30px;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 1.2em;
+    font-weight: 700;
+    height: 100%;
+}
+
+#score {
+    padding: 5px 10px;
+    border-radius: 8px;
+    /* 🎯 AJUSTE: Cor de destaque ciano/água clara */
+    background: rgba(148, 210, 189, 0.5); 
+}
+
+
+/* ------------------------------------------------ */
+/* CONTADORES DE LIXO POR TIPO (Mantido) */
+/* ------------------------------------------------ */
+#trash-counters {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-right: 30px;
+}
+
+.counter-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    white-space: nowrap;
+}
+
+.counter-item img {
+    height: 30px;
+    width: 30px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+}
+
+.count-value {
+    color: white;
+    font-size: 1.5em;
+    font-weight: 800;
+    text-shadow: 0 0 3px black;
+}
+
+
+/* ------------------------------------------------ */
+/* RESPONSIVIDADE (Mantida) */
+/* ------------------------------------------------ */
+@media (max-width: 1024px) {
+    #game-viewport-modern {
+        width: 100vw;
+        height: 100vh;
+        aspect-ratio: unset;
+        border-radius: 0;
+    }
+
+    #hud-container-flex {
+        border-radius: 0;
+        height: 40px;
+    }
+
+    #game-hud {
+        font-size: 1em;
+        padding-left: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    #trash-counters {
+        display: none;
+    }
+}
+
+/* ========================================================= */
+/* ESTILOS DO MODAL DE COLISÃO E COUNTDOWN (Mantidos) */
+/* (São genéricos o suficiente para serem usados em todas as fases) */
+/* ========================================================= */
+
+.modal-personalizado {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 🎯 AJUSTE: Cor base do blur para o tema Oceano */
+    background-color: rgba(0, 95, 115, 0.4); 
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.modal-personalizado.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.modal-content {
+    width: 90%;
+    max-width: 450px;
+    padding: 35px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 25px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    color: #2c3e50;
+    transform: scale(1.05);
+    animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Animação de entrada */
+@keyframes bounceIn {
+    0% { transform: scale(0.7); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ELEMENTOS INTERNOS DO MODAL */
+.modal-content h2 {
+    font-size: 2.2em;
+    font-weight: 900;
+    margin-bottom: 10px;
+    /* 🎯 AJUSTE: Cor do Game Over para um vermelho/preto genérico */
+    background: linear-gradient(90deg, #000000, #000000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* BOTÃO DE REINÍCIO */
+#restart-button {
+    position: relative;
+
+    /* 🎯 AJUSTE: Gradiente para combinar com o tema Oceano */
+    background: linear-gradient(135deg, #0a9396, #005f73); 
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    font-size: 1.15em;
+    font-weight: 800;
+    border-radius: 30px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    /* Sombra Ciano Suave */
+    box-shadow: 0 5px 15px rgba(148, 210, 189, 0.5);
+    text-transform: uppercase;
+}
+
+#restart-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(148, 210, 189, 0.7);
+    /* Inverte o gradiente no hover */
+    background: linear-gradient(135deg, #005f73, #0a9396); 
+}
+
+#restart-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 10px rgba(148, 210, 189, 0.5);
+}
+
+/* ESTILOS PARA O CONTADOR REGRESSIVO (Mantido) */
+#countdown-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+}
+
+#countdown-text {
+    font-size: 8em;
+    font-weight: 900;
+    color: white;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+    margin: 0;
+    animation: pulse 0.8s ease-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.5); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.hidden {
+    display: none !important;
+}

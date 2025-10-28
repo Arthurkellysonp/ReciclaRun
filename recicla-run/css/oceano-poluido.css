@@ -1,0 +1,52 @@
+/*
+ * Arquivo: css/oceano-poluido.css - Estilo para o Cenário Oceânico Poluído.
+ * Objetivo: Aplicar o fundo, a animação de rolagem e o sprite do jogador subaquático.
+ */
+
+/* ------------------------------------------------ */
+/* ANIMAÇÃO DE ROLAGEM DO CENÁRIO */
+/* ------------------------------------------------ */
+@keyframes moveBackgroundOceanoPoluido {
+    /* O movimento do oceano costuma ser mais suave e lento ou até vertical/diagonal,
+       mas manteremos a rolagem horizontal padrão (repeat-x) por consistência. */
+    from {
+        background-position-x: 0;
+    }
+
+    /* 🎯 AJUSTE: Velocidade de rolagem (pode ser mais lenta ou usar um valor diferente) */
+    to {
+        background-position-x: -170%;
+    }
+}
+
+/* ------------------------------------------------ */
+/* CONFIGURAÇÃO DO CENÁRIO OCEÂNICO POLUÍDO */
+/* ------------------------------------------------ */
+/* Usa a classe no viewport para aplicar o cenário à game-area correta */
+.cenario-oceano-poluido #game-area-oceano { 
+    /* 🎯 CRÍTICO: Imagem do Fundo do Oceano Poluído */
+    background-image: url('../public/assets/imagens/cenarios/OceanoPoluido.png'); 
+
+    background-size: auto 100%;
+    background-repeat: repeat-x;
+    background-position: 0% bottom; /* Ajustar se a linha do "chão" for diferente no oceano */
+
+    /* 🎯 AJUSTE: Tempo da animação (Pode ser mais lento, ex: 8s) */
+    animation: moveBackgroundOceanoPoluido 8s linear infinite; 
+
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* ------------------------------------------------ */
+/* SPRITES DO JOGADOR NO CENÁRIO OCEÂNICO POLUÍDO */
+/* ------------------------------------------------ */
+.cenario-oceano-poluido .jogador {
+    /* 🎯 CRÍTICO: Imagem do sprite do jogador subaquático */
+    /* Assumindo que você tem um sprite chamado 'PersonagemNado.png' ou 'Submarino.png' */
+    background-image: url('../public/assets/imagens/personagem/NadandoDireita.png');
+    
+    /* 🎯 RECOMENDAÇÃO: Se o jogador for um nadador/submarino, o tamanho pode ser ajustado
+       para parecer mais apropriado ao ambiente subaquático. */
+}

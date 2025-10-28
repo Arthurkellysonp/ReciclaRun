@@ -1,0 +1,440 @@
+/* Arquivo: css/inicio.css - VERSÃO FINAL (Proporção Fixa + Glassmorphism Otimizado com Correção de Espaçamento) */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Fundo gradiente moderno e suave */
+    background: linear-gradient(135deg, #0c2744 0%, #0c2744 50%, #93bd4e 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Tela principal (Container Fullscreen, apenas para o fundo) */
+.tela-inicio-fullscreen {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Definição da animação de rolagem do fundo */
+@keyframes scrollBackground {
+    from {
+        background-position: 0% center;
+        /* Começa na posição 0% horizontal */
+    }
+
+    to {
+        background-position: 100% center;
+        /* Termina na posição 100% horizontal, criando loop */
+    }
+}
+
+/* *************************************************************** */
+/* CONTAINER PRINCIPAL (VIEWPORT) - TAMANHO FIXO E GLASSMORPHISM */
+/* *************************************************************** */
+#game-viewport-modern {
+    /* PROPORÇÃO FIXA e TAMANHO OTIMIZADO */
+    width: 80vw;
+    max-width: 1200px;
+    aspect-ratio: 2 / 1;
+
+    /* ESTILO GLASSMORPHISM */
+    background: rgba(106, 24, 177, 0.1);
+    /* Fundo base para o Glassmorphism */
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.613);
+
+    /* NOVO: Aplica a animação */
+    animation: scrollBackground 30s linear infinite;
+    /* 30s de duração, linear (velocidade constante), loop infinito */
+
+    /* Remove background-blend-mode daqui, vamos fazer com pseudo-elemento */
+    background-blend-mode: normal;
+    /* Ou apenas remova a linha, normal é o padrão */
+
+    /* LAYOUT INTERNO */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px;
+    position: relative;
+    z-index: 2;
+    /* Garante que o conteúdo fique acima do fundo */
+    overflow: hidden;
+}
+
+/* ------------------------------------------------ */
+/* ESTILOS DE CABEÇALHO */
+/* ------------------------------------------------ */
+
+.header-content {
+    text-align: center;
+    width: 100%;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.logo-imagem {
+    height: 4.5em;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3));
+}
+
+.logo-texto {
+    font-size: 3.5em;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ffffff, #ffffff, #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+}
+
+.subtitulo {
+    font-size: 1.2em;
+    color: white;
+    opacity: 0.9;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* ------------------------------------------------ */
+/* CARDS E GRID PRINCIPAL */
+/* ------------------------------------------------ */
+
+.cards-lado-a-lado {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    flex: 1;
+    align-items: stretch;
+    /* Garante que todos os cartões tenham a mesma altura */
+    padding: 10px 0;
+}
+
+.card-modern {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+
+    /* CORREÇÃO CHAVE: Distribui o espaço entre o topo e a base do card */
+    justify-content: space-between;
+}
+
+.card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #4ecdc4, #44a08d);
+}
+
+.card-modern:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.card-icone {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.card-modern h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 1.3em;
+    font-weight: 700;
+}
+
+/* CORREÇÃO CHAVE: O parágrafo/elemento de conteúdo principal cresce para preencher o espaço */
+.card-modern p {
+    color: #5a6c7d;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    font-size: 0.85em;
+    flex-grow: 1;
+    /* Força o elemento a ocupar o espaço vazio */
+}
+
+/* Detalhes missão (Tags ODS) */
+.detalhe-missao {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.detalhe-missao span {
+    background: rgba(78, 205, 196, 0.1);
+    padding: 4px 8px;
+    border-radius: 8px;
+    color: #2c3e50;
+    font-weight: 600;
+    border: 1px solid rgba(78, 205, 196, 0.3);
+    font-size: 0.75em;
+}
+
+/* Controles */
+.controles-grid-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-top: 10px;
+    flex-grow: 1;
+    /* Permite que o grid de controles use o espaço vazio no lugar do p */
+    justify-content: center;
+    /* Centraliza os itens de controle verticalmente */
+}
+
+.controle-item-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    border: 2px solid rgba(78, 205, 196, 0.3);
+    width: 100%;
+}
+
+.tecla-content {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 0.8em;
+    min-width: 50px;
+}
+
+.tecla-espaco {
+    min-width: 80px;
+}
+
+.controle-descricao {
+    font-size: 0.8em;
+    color: #2c3e50;
+    font-weight: 600;
+    min-width: 100px;
+    text-align: left;
+}
+
+/* Lixos */
+.lixos-grid-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    width: 100%;
+    margin-top: 10px;
+    flex-grow: 1;
+    /* Permite que o grid de lixos use o espaço vazio no lugar do p */
+    align-content: center;
+    /* Centraliza os itens de lixo no grid verticalmente */
+}
+
+.lixo-item-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 8px 3px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.lixo-item-content img {
+    height: 35px;
+    width: auto;
+}
+
+.lixo-item-content:hover {
+    background: rgba(255, 255, 255, 1);
+    border-color: #4ecdc4;
+    transform: scale(1.05);
+}
+
+.lixo-nome {
+    font-size: 0.75em;
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+/* ------------------------------------------------ */
+/* BOTÃO E FOOTER */
+/* ------------------------------------------------ */
+
+.botao-container-content {
+    text-align: center;
+    width: 100%;
+}
+
+.btn-content {
+    position: relative;
+    background: linear-gradient(135deg, #a7dd47, #a7dd47);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1em;
+    font-weight: 800;
+    border-radius: 30px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 20px #0c2744;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-grande-content {
+    padding: 15px 40px;
+    font-size: 1.2em;
+}
+
+.btn-content:hover {
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 12px 30px rgba(78, 205, 196, 0.7);
+    background: linear-gradient(135deg, #47dd67, #a7dd47);
+}
+
+.btn-icone {
+    margin-right: 8px;
+    font-size: 1em;
+}
+
+/* Efeito de Brilho no Botão */
+.btn-efeito {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transition: left 0.7s ease;
+}
+
+.btn-content:hover .btn-efeito {
+    left: 100%;
+}
+
+.footer-content {
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    width: 100%;
+}
+
+.footer-content p {
+    color: white;
+    opacity: 0.8;
+    font-weight: 500;
+    font-size: 0.8em;
+    margin: 0;
+}
+
+
+/* ------------------------------------------------ */
+/* RESPONSIVIDADE (MOBILE/TABLET) */
+/* ------------------------------------------------ */
+
+@media (max-width: 1200px) {
+    #game-viewport-modern {
+        width: 85vw;
+        max-height: 90vh;
+        aspect-ratio: unset;
+        overflow-y: auto;
+    }
+
+    .cards-lado-a-lado {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .card-modern {
+        max-width: 600px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    #game-viewport-modern {
+        padding: 20px;
+    }
+
+    .logo-container {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .logo-texto {
+        font-size: 1.8em;
+    }
+
+    .logo-imagem {
+        height: 3em;
+    }
+
+    .subtitulo {
+        font-size: 0.9em;
+    }
+
+    .lixos-grid-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .btn-grande-content {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+}

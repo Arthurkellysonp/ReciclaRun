@@ -1,0 +1,60 @@
+/* ========================================================= */
+/* CSS RESET - Remove Margens/Padding Padrão do Navegador */
+/* ========================================================= */
+html, body {
+    margin: 0;         /* Zera a margem externa padrão do navegador */
+    padding: 0;        /* Zera o preenchimento interno padrão do navegador */
+    width: 100%;       /* Garante que o body ocupe 100% da largura da viewport */
+    height: 100%;      /* Garante que o body ocupe 100% da altura da viewport */
+    overflow: hidden;  /* Impede a exibição de barras de rolagem */
+}
+
+/* Aplica o box-sizing para facilitar o layout (recomendado) */
+* {
+    box-sizing: border-box; 
+}
+
+
+/* ========================================================= */
+/* ESTILOS PARA A TELA DE TRANSIÇÃO (FASE-CONCLUIDA.HTML) */
+/* ========================================================= */
+
+/* 1. ESTILO PARA A BARRA DE CARREGAMENTO */
+.carregando-container {
+    position: fixed;
+    bottom: 20px; /* Posição no canto inferior direito */
+    right: 20px;
+    width: 500px; /* Largura fixa */
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro sutil */
+    border-radius: 8px;
+    overflow: hidden; /* Garante que a barra não vaze */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid #00ff00; /* Borda da cor de progresso */
+}
+
+#carregando-barra {
+    height: 35px;
+    width: 0%; /* O JS (cenario.js) mudará este valor para 100% */
+    
+    /* Gradiente sutil para dar profundidade */
+    background: linear-gradient(90deg, #00d400 0%, #00ff00 100%); 
+    
+    text-align: center;
+    line-height: 35px; /* Centraliza verticalmente o texto */
+    color: #ffffff; /* Cor do texto no interior da barra */
+    font-weight: bold;
+    font-size: 14px;
+    
+    /* A transição será definida via JavaScript (cenario.js) */
+}
+
+
+/* 2. ESTILO PARA A MENSAGEM EDUCATIVA (MENSAGEM-EDUCATIVA.JS) */
+.mensagem-educativa {
+    font-family: 'Arial', sans-serif; /* Mantenha uma fonte legível */
+    max-width: 600px;
+    line-height: 1.5;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    border: 3px solid #fff; 
+}

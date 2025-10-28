@@ -1,0 +1,410 @@
+/*
+ * Arquivo: css/jogo-urbano.css - Estilos globais para a tela de jogo.
+ * Objetivo: Anular o Glassmorphism do inicio.css e definir a estrutura do HUD.
+ */
+
+/* ------------------------------------------------ */
+/* CORREÇÃO GLOBAL E PROPORÇÃO FULLSCREEN */
+/* ------------------------------------------------ */
+
+/* Força o body da tela de jogo a usar o fundo gradiente e OCUPAR A TELA TODA */
+body.game-body {
+    background: linear-gradient(135deg, #1a535c 0%, #4ecdc4 50%, #44a08d 100%) !important;
+
+    /* ALTERAÇÃO: Remove a centralização e permite que o conteúdo ocupe a tela toda */
+    display: block;
+    /* Volta para o comportamento padrão de bloco */
+    align-items: unset;
+    justify-content: unset;
+    width: 100vw;
+    /* Garante 100% da largura visível */
+    height: 100vh;
+    /* Garante 100% da altura visível */
+    margin: 0;
+    /* Remove margens padrão do body */
+    padding: 0;
+    /* Remove padding padrão do body */
+    overflow: hidden;
+
+    animation: none !important;
+}
+
+/* Garante que a área de fundo (tela-inicio-fullscreen) cubra a tela */
+.tela-inicio-fullscreen {
+    background-color: transparent !important;
+    background-image: none !important;
+
+    /* ALTERAÇÃO: Ocupa a tela toda, remove a centralização */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    /* Remove o display: flex de centralização */
+    overflow: hidden;
+    z-index: 5;
+}
+
+/* Zera os estilos Glassmorphism e FORÇA O VIEWPORT A SER FULLSCREEN */
+#game-viewport-modern {
+    /* Anula o Glassmorphism */
+    background: transparent !important;
+    backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    /* ALTERAÇÃO: Ocupa a tela toda */
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+
+    /* Remove a borda arredondada que restringe a tela */
+    border-radius: 0;
+}
+
+
+/* ------------------------------------------------ */
+/* ÁREA DE JOGO BASE (APENAS ESTRUTURA) */
+/* ------------------------------------------------ */
+#game-area-urbano {
+    width: 100%;
+    /* CORREÇÃO AQUI: Ajusta a altura da área de jogo (abaixo do HUD de 50px) */
+    height: calc(100% - 50px);
+    position: absolute;
+    top: 50px;
+    /* Coloca a área de jogo abaixo do HUD */
+    left: 0;
+    overflow: hidden;
+    z-index: 10;
+}
+
+/* NOVO: Estilização dos itens de lixo (adicionado para suportar lixo.js) */
+.lixo-item {
+    transition: none;
+    z-index: 20;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.442));
+    /* Brilho amarelo/dourado */
+}
+
+/* ------------------------------------------------ */
+/* JOGADOR BASE (CORRIGIDO: Tamanho e Posição) */
+/* ------------------------------------------------ */
+.jogador {
+    position: absolute;
+
+    /* Posição corrigida para a tela toda */
+    bottom: 50px;
+    /* 🎯 VALOR PADRÃO IGUAL AO minBottom do JS */
+    left: 15%;
+
+    /* CORREÇÃO AQUI: REVERTIDO para um tamanho razoável. */
+    width: 250px;
+    height: 250px;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 15;
+
+    transition: transform 0.1s ease-out, bottom 0.1s ease-out;
+}
+
+/* ------------------------------------------------ */
+/* HEAD-UP DISPLAY (HUD) - GLOBAL (Mantido) */
+/* ------------------------------------------------ */
+#hud-container-flex {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(128, 128, 128, 0.8);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 30;
+    /* ALTERAÇÃO: Remove o border-radius para cobrir os cantos da tela */
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+#game-hud {
+    padding-left: 30px;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 1.2em;
+    font-weight: 700;
+    height: 100%;
+}
+
+#score {
+    padding: 5px 10px;
+    border-radius: 8px;
+    background: rgba(78, 205, 196, 0.5);
+}
+
+
+/* ------------------------------------------------ */
+/* CONTADORES DE LIXO POR TIPO (CORRIGIDO) */
+/* ------------------------------------------------ */
+#trash-counters {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-right: 30px;
+}
+
+.counter-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    white-space: nowrap;
+    /* CORREÇÃO: Impede a quebra de linha do ícone e contagem */
+}
+
+.counter-item img {
+    height: 30px;
+    width: 30px;
+    /* CORREÇÃO: Força a largura para evitar distorção */
+    flex-shrink: 0;
+    /* CORREÇÃO: Impede que o navegador comprima a imagem */
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+}
+
+.count-value {
+    color: white;
+    font-size: 1.5em;
+    font-weight: 800;
+    text-shadow: 0 0 3px black;
+}
+
+
+/* ------------------------------------------------ */
+/* RESPONSIVIDADE (Não mais necessário no fullscreen, mas mantido) */
+/* ------------------------------------------------ */
+@media (max-width: 1024px) {
+    #game-viewport-modern {
+        width: 100vw;
+        height: 100vh;
+        aspect-ratio: unset;
+        border-radius: 0;
+    }
+
+    #hud-container-flex {
+        border-radius: 0;
+        height: 40px;
+    }
+
+    #game-hud {
+        font-size: 1em;
+        padding-left: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    #trash-counters {
+        display: none;
+    }
+}
+
+/* Estilos para o Modal Personalizado */
+
+/* ========================================================= */
+/* ESTILOS DO MODAL DE COLISÃO (BASEADO NO GLASSMORFISM) */
+/* ========================================================= */
+
+.modal-personalizado {
+    /* Posição e Z-Index (Mantemos o básico) */
+    position: fixed;
+    /* Use 'fixed' para garantir que cubra a tela mesmo com scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    /* Z-index muito alto para garantir que esteja acima de tudo */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* NOVO: Fundo com Glassmorphism (efeito de pausa no jogo) */
+    background-color: rgba(26, 83, 92, 0.4);
+    /* Cor base do seu gradiente inicial, mas transparente */
+    backdrop-filter: blur(15px);
+    /* Desfoque forte para pausar visualmente o fundo */
+    -webkit-backdrop-filter: blur(15px);
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.modal-personalizado.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.modal-content {
+    /* O Próprio Modal é uma "janela" Glassmorphism */
+    width: 90%;
+    max-width: 450px;
+    padding: 35px;
+
+    /* GLASSMORPHISM - CORES CLARAS COMO OS CARDS DA TELA INICIAL */
+    background: rgba(255, 255, 255, 0.95);
+    /* Fundo quase opaco para contraste */
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 25px;
+    /* Arredondamento do card */
+
+    /* Sombras/Elevação */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+
+    /* Tipografia */
+    text-align: center;
+    color: #2c3e50;
+    /* Cor escura do texto, vinda dos seus cards */
+
+    /* Animação de entrada (sutil) */
+    transform: scale(1.05);
+    animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ------------------ */
+/* ELEMENTOS INTERNOS */
+/* ------------------ */
+
+.modal-content h2 {
+    font-size: 2.2em;
+    font-weight: 900;
+    margin-bottom: 10px;
+
+    /* Cor de Alerta/Perigo (usando o gradiente principal como base para coesão) */
+    background: linear-gradient(90deg, #000000, #000000);
+    /* Vermelho forte de erro */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.modal-content p {
+    font-size: 1em;
+    /* Corrigido: Valor vazio em (em) */
+    font-weight: 500;
+    color: #5a6c7d;
+    margin-bottom: 30px;
+}
+
+/* ------------------ */
+/* BOTÃO DE REINÍCIO */
+/* ------------------ */
+
+#restart-button {
+    position: relative;
+
+    /* Gradiente e Estilo igual ao botão de Início, mas com cor de ação (Verde/Ciano) */
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    /* Usa suas cores de destaque */
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    /* Botão grande */
+    font-size: 1.15em;
+    font-weight: 800;
+    border-radius: 30px;
+    cursor: pointer;
+    overflow: hidden;
+
+    transition: all 0.3s ease;
+
+    /* Sombra Verde Suave */
+    box-shadow: 0 5px 15px rgba(78, 205, 196, 0.5);
+    text-transform: uppercase;
+}
+
+#restart-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(78, 205, 196, 0.7);
+    background: linear-gradient(135deg, #44a08d, #4ecdc4);
+    /* Inverte o gradiente no hover */
+}
+
+#restart-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 10px rgba(78, 205, 196, 0.5);
+}
+
+/* ---------------------------------------------------- */
+/* NOVO: ESTILOS PARA O CONTADOR REGRESSIVO (3, 2, 1, GO!) */
+/* ---------------------------------------------------- */
+
+#countdown-overlay {
+    position: fixed;
+    /* Fixa na tela, acima de todo o conteúdo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Fundo preto semi-transparente para focar no contador */
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 10000;
+    /* Garante que fique acima de TUDO no jogo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+}
+
+#countdown-text {
+    font-size: 8em;
+    /* Texto gigante */
+    font-weight: 900;
+    color: white;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+    margin: 0;
+    /* Define a animação 'pulse' que será acionada pelo JavaScript */
+    animation: pulse 0.8s ease-out;
+}
+
+/* Animação de pulso para cada número/GO! */
+@keyframes pulse {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Classe de utilidade para ocultar, usada no HTML e JS */
+.hidden {
+    display: none !important;
+}
