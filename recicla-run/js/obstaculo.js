@@ -58,7 +58,7 @@ const OBSTACULO_TYPES = [
 
     { src: '../public/assets/imagens/obstaculosCidade/Cone.png', width: 100, height: 100, y_offset: 10, fase: 'urbano' }, // Desce 10px
 
-    { src: '../public/assets/imagens/obstaculosCidade/Moto.png', width: 230, height: 230, y_offset: 60, fase: 'urbano' }, // Sobe 5px
+    // { src: '../public/assets/imagens/obstaculosCidade/Moto.png', width: 230, height: 230, y_offset: 60, fase: 'urbano' }, // Sobe 5px
 
     { src: '../public/assets/imagens/obstaculosCidade/Placa.png', width: 120, height: 120, y_offset: 25, fase: 'urbano' },
 
@@ -67,13 +67,13 @@ const OBSTACULO_TYPES = [
     // -------------------------------------------------------------------
     // Observação: Ajustei os offsets para que pareçam estar no chão ou flutuando.
 
-    { src: '../public/assets/imagens/obstaculosFloresta/Fogo.png', width: 120, height: 120, y_offset: -35, fase: 'florestal' },
+    { src: '../public/assets/imagens/obstaculosFloresta/Fogo.png', width: 150, height: 150, y_offset: 10, fase: 'florestal' },
 
-    { src: '../public/assets/imagens/obstaculosFloresta/Tronco.png', width: 120, height: 120, y_offset: -25, fase: 'florestal' }, // Grande no chão
+    { src: '../public/assets/imagens/obstaculosFloresta/Tronco.png', width: 120, height: 120, y_offset: 0, fase: 'florestal' }, // Grande no chão
 
-    { src: '../public/assets/imagens/obstaculosFloresta/Toco.png', width: 100, height: 100, y_offset: -30, fase: 'florestal' }, // Buraco no chão (pode precisar de ajuste fino)
+    { src: '../public/assets/imagens/obstaculosFloresta/Toco.png', width: 100, height: 100, y_offset: 0, fase: 'florestal' }, // Buraco no chão (pode precisar de ajuste fino)
 
-    { src: '../public/assets/imagens/obstaculosFloresta/Pedra.png', width: 170, height: 170, y_offset: -5, fase: 'florestal' }, // Pendurado (offset negativo)
+    { src: '../public/assets/imagens/obstaculosFloresta/Pedra.png', width: 170, height: 170, y_offset: 30, fase: 'florestal' }, // Pendurado (offset negativo)
 
     // -------------------------------------------------------------------
     // NOVOS OBSTÁCULOS DO OCEANO (OCEANO)

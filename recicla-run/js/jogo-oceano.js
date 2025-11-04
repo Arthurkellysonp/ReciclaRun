@@ -1,4 +1,4 @@
-// Arquivo: js/jogo-oceano.js (Lógica da Fase Oceano)
+// Arquivo: js/jogo-oceano.js (Lógica da Fase Oceano com PROXIMIDADE CORRIGIDA)
 
 const gameArea = document.getElementById('game-area-oceano'); // 🎯 MUDANÇA: ID específico para o Oceano
 const scoreElement = document.getElementById('score');
@@ -99,15 +99,16 @@ let spawnTimer = 0;
 let obstaculoSpawnTimer = 0;
 
 const SPAWN_INTERVAL = 150; 
-const OBSTACULO_SPAWN_INTERVAL = 300; 
-const SCROLL_SPEED = 5; // 🎯 AJUSTE: Velocidade do oceano pode ser diferente
+const OBSTACULO_SPAWN_INTERVAL = 150; 
+const SCROLL_SPEED = 9; // 🎯 AJUSTE: Velocidade do oceano pode ser diferente
 const HITBOX_PADDING = 50;
+
+// ⭐ CONSTANTE DE SEGURANÇA (Adicionada)
+const SPAWN_SAFETY_MARGIN = 250; 
 
 // === VARIÁVEL GLOBAL PARA A FASE (OCEANO) ===
 const FASE_ATUAL = 'oceano'; // 🎯 CRÍTICO: DEFINE O TEMA DESTA FASE
 // ==========================================================
-
-// ... (Funções updateHUD, initSpawn - SEM ALTERAÇÃO) ...
 
 function updateHUD(type) {
     score++;
@@ -124,11 +125,6 @@ function updateHUD(type) {
     }
 }
 
-function initSpawn() {
-    spawnLixo();
-    spawnLixo();
-    spawnObstaculo();
-}
 
 function showCollisionModal() {
     playGameOverSound();
@@ -162,12 +158,10 @@ function restartPhase() {
 
     spawnTimer = 0;
     obstaculoSpawnTimer = 0;
-    initSpawn();
 
     startCountdown(3);
 }
 
-// ... (Função checkCollision - SEM ALTERAÇÃO) ...
 function checkCollision(item) {
     const playerRect = playerElement.getBoundingClientRect();
     const itemRect = item.getBounds();
@@ -192,22 +186,59 @@ function checkCollision(item) {
         playerHitbox.y + playerHitbox.height > itemHitbox.y;
 }
 
-// ... (Função spawnLixo - SEM ALTERAÇÃO) ...
+/**
+ * Cria um novo lixo aleatório, verificando proximidade de obstáculos.
+ */
 function spawnLixo() {
     if (typeof LIXO_TYPES === 'undefined' || LIXO_TYPES.length === 0) return;
 
     const typeData = LIXO_TYPES[Math.floor(Math.random() * LIXO_TYPES.length)];
     const newLixo = new Lixo(typeData.type, typeData.src, gameArea);
-    lixos.push(newLixo);
+    
+    // ⭐ LÓGICA DE PROXIMIDADE (Lixo contra Obstáculos)
+    let proximityDetected = false;
+    const lixoRect = newLixo.getBounds();
+    
+    for (const obstaculo of obstaculos) {
+        const obstaculoRect = obstaculo.getBounds();
+        
+        // Define a "área de proibição" expandida do obstáculo
+        const forbiddenArea = {
+            x: obstaculoRect.x - SPAWN_SAFETY_MARGIN, 
+            width: obstaculoRect.width + (SPAWN_SAFETY_MARGIN * 2), 
+            y: obstaculoRect.y, 
+            height: obstaculoRect.height 
+        };
+        
+        // Verifica a intersecção 
+        const horizontalOverlap = lixoRect.x < forbiddenArea.x + forbiddenArea.width &&
+                                  lixoRect.x + lixoRect.width > forbiddenArea.x;
+
+        const verticalOverlap = lixoRect.y < forbiddenArea.y + forbiddenArea.height &&
+                                lixoRect.y + lixoRect.height > forbiddenArea.y;
+
+        if (horizontalOverlap && verticalOverlap) {
+            proximityDetected = true;
+            break;
+        }
+    }
+
+    if (proximityDetected) {
+        newLixo.element.remove();
+        console.log(`Lixo removido devido à proximidade perigosa com obstáculo (margem de segurança: ${SPAWN_SAFETY_MARGIN}px).`);
+    } else {
+        lixos.push(newLixo);
+    }
 }
 
 /**
- * Cria um novo obstáculo aleatório, filtrando-o pela fase atual ('oceano').
+ * Cria um novo obstáculo aleatório, filtrando-o pela fase atual ('oceano')
+ * e verificando proximidade de Lixos e outros Obstáculos.
  */
 function spawnObstaculo() {
     if (typeof Obstaculo === 'undefined' || typeof OBSTACULO_TYPES === 'undefined' || OBSTACULO_TYPES.length === 0) return;
 
-    // 🎯 CRÍTICO: Filtra por FASE_ATUAL = 'oceano' para usar obstáculosOceanos
+    // 🎯 CRÍTICO: Filtra por FASE_ATUAL = 'oceano'
     const faseTipos = OBSTACULO_TYPES.filter(obs => obs.fase === FASE_ATUAL);
 
     if (faseTipos.length === 0) return;
@@ -215,8 +246,46 @@ function spawnObstaculo() {
     const typeData = faseTipos[Math.floor(Math.random() * faseTipos.length)];
 
     const newObstaculo = new Obstaculo(typeData, gameArea);
+    
+    // ⭐ LÓGICA DE PROXIMIDADE (Obstáculo contra Lixos e Obstáculos)
+    let proximityDetected = false;
+    const obstaculoRect = newObstaculo.getBounds();
+    
+    // Checa proximidade contra TODOS os itens já spawnados
+    const itemsToCheck = [...lixos, ...obstaculos];
+    
+    for (const item of itemsToCheck) {
+        const itemRect = item.getBounds();
+        
+        // Define a "área de proibição" expandida do item existente
+        const forbiddenArea = {
+            x: itemRect.x - SPAWN_SAFETY_MARGIN, 
+            width: itemRect.width + (SPAWN_SAFETY_MARGIN * 2), 
+            y: itemRect.y, 
+            height: itemRect.height 
+        };
+        
+        // Verifica a intersecção
+        const horizontalOverlap = obstaculoRect.x < forbiddenArea.x + forbiddenArea.width &&
+                                  obstaculoRect.x + obstaculoRect.width > forbiddenArea.x;
 
-    obstaculos.push(newObstaculo);
+        const verticalOverlap = obstaculoRect.y < forbiddenArea.y + forbiddenArea.height &&
+                                obstaculoRect.y + obstaculoRect.height > forbiddenArea.y;
+
+        if (horizontalOverlap && verticalOverlap) {
+            proximityDetected = true;
+            break; 
+        }
+    }
+
+    if (proximityDetected) {
+        // Se houve proximidade perigosa, remove o obstáculo criado.
+        newObstaculo.element.remove();
+        console.log(`Obstáculo removido devido à proximidade perigosa com outro item (margem de segurança: ${SPAWN_SAFETY_MARGIN}px).`);
+    } else {
+        // Se não houve colisão ou proximidade, adiciona o obstáculo ao jogo.
+        obstaculos.push(newObstaculo);
+    }
 }
 
 // =========================================================
@@ -225,8 +294,6 @@ function spawnObstaculo() {
 function runGameLogic() {
     gamePaused = false; 
     gameArea.style.animationPlayState = 'running'; 
-    initSpawn(); 
-
     // INICIA A MÚSICA DE FUNDO DO OCEANO
     gerenciarMusicaFundo(true);
 
@@ -366,7 +433,7 @@ function endGame() {
     localStorage.setItem('faseAtualPoluida', `${FASE_ATUAL}-poluido`); // Salva 'oceano-poluido'
 
     // 4. Para o background da classificação:
-    localStorage.setItem('faseParaClassificacao', `${FASE_ATUAL}-poluido`); //   Salva 'oceano-poluido'
+    localStorage.setItem('faseParaClassificacao', `${FASE_ATUAL}-poluido`); //   Salva 'oceano-poluido'
     
     console.log("Fim de Jogo! Total de Lixos Coletados: " + totalTrashCollected);
 
@@ -374,8 +441,7 @@ function endGame() {
 
     // 5. Define um timer para redirecionar automaticamente
     setTimeout(() => {
-        // 🎯 CORREÇÃO CRÍTICA: Redireciona para a TELA DE CLASSIFICAÇÃO, 
-        // que por sua vez, redirecionará para o OCEANO LIMPO, e só então para o FINAL.
+        // 🎯 CORREÇÃO CRÍTICA: Redireciona para a TELA DE CLASSIFICAÇÃO
         window.location.href = 'classificacao.html'; 
     }, 4000); 
 }
@@ -393,8 +459,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // === EXPORTS (Para uso em outros arquivos JS, se necessário) ===
-// NOTA: Se você não estiver usando módulos, você precisa garantir que 'playJumpSound'
-// esteja no escopo global para que 'jogador.js' possa chamá-lo.
-
 // A linha abaixo é importante se o jogador.js chama esta função:
 window.playJumpSound = playJumpSound;

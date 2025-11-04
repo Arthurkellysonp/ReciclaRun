@@ -123,11 +123,14 @@ let spawnTimer = 0;
 let obstaculoSpawnTimer = 0;
 
 const SPAWN_INTERVAL = 150; // Tempo entre a criação de lixos (em frames)
-const OBSTACULO_SPAWN_INTERVAL = 300; // Dropa obstáculos com menos frequência
-const SCROLL_SPEED = 7; // Velocidade de movimento dos lixos 
+const OBSTACULO_SPAWN_INTERVAL = 150; // Dropa obstáculos com menos frequência
+const SCROLL_SPEED = 9; // Velocidade de movimento dos lixos 
 
 // Constante para ajustar a área de colisão (Hitbox)
 const HITBOX_PADDING = 50;
+
+// ⭐ ADICIONADO: CONSTANTE DE SEGURANÇA PARA EVITAR PROXIMIDADE (250px à esquerda e direita)
+const SPAWN_SAFETY_MARGIN = 250; 
 
 // === NOVO: VARIÁVEL GLOBAL PARA A FASE (URBANO POLUÍDO) ===
 const FASE_ATUAL = 'urbano';
@@ -150,16 +153,6 @@ function updateHUD(type) {
     if (totalTrashCollected >= MAX_TRASH) {
         endGame();
     }
-}
-
-/**
- * Funções de inicialização do Spawn (Separada para ser chamada no reinício).
- */
-function initSpawn() {
-    // Força o spawn de alguns itens iniciais
-    spawnLixo();
-    spawnLixo();
-    spawnObstaculo();
 }
 
 /**
@@ -213,7 +206,6 @@ function restartPhase() {
 
     spawnTimer = 0;
     obstaculoSpawnTimer = 0;
-    initSpawn();
 
     // 7. Inicia a contagem (que retomará o gameLoop e a música)
     startCountdown(3);
@@ -252,7 +244,7 @@ function checkCollision(item) {
 }
 
 /**
- * Cria um novo lixo aleatório.
+ * Cria um novo lixo aleatório, verificando proximidade de obstáculos. (CORRIGIDO)
  */
 function spawnLixo() {
     // Certifique-se que LIXO_TYPES é acessível (vindo de lixo.js)
@@ -261,14 +253,50 @@ function spawnLixo() {
     const typeData = LIXO_TYPES[Math.floor(Math.random() * LIXO_TYPES.length)];
     // Assumindo que Lixo é uma classe global definida em lixo.js
     const newLixo = new Lixo(typeData.type, typeData.src, gameArea);
-    lixos.push(newLixo);
+    
+    // ⭐ NOVO AJUSTE: VERIFICAÇÃO DE PROXIMIDADE (Lixo contra Obstáculos)
+    let proximityDetected = false;
+    const lixoRect = newLixo.getBounds();
+    
+    // Checa proximidade APENAS contra os obstáculos
+    for (const obstaculo of obstaculos) {
+        const obstaculoRect = obstaculo.getBounds();
+        
+        // Define a "área de proibição" expandida do obstáculo
+        const forbiddenArea = {
+            // A área proibida começa à esquerda do obstáculo + margem
+            x: obstaculoRect.x - SPAWN_SAFETY_MARGIN, 
+            // A largura cobre o obstáculo mais as margens de segurança (2 * margem)
+            width: obstaculoRect.width + (SPAWN_SAFETY_MARGIN * 2), 
+            y: obstaculoRect.y, 
+            height: obstaculoRect.height 
+        };
+        
+        // Verifica a intersecção (Horizontal e Vertical)
+        const horizontalOverlap = lixoRect.x < forbiddenArea.x + forbiddenArea.width &&
+                                    lixoRect.x + lixoRect.width > forbiddenArea.x;
+
+        const verticalOverlap = lixoRect.y < forbiddenArea.y + forbiddenArea.height &&
+                                lixoRect.y + lixoRect.height > forbiddenArea.y;
+
+        if (horizontalOverlap && verticalOverlap) {
+            proximityDetected = true;
+            break; 
+        }
+    }
+
+    if (proximityDetected) {
+        // Se houve proximidade perigosa com um obstáculo, remove o lixo criado.
+        newLixo.element.remove();
+        console.log(`Lixo removido devido à proximidade perigosa com obstáculo (margem de segurança: ${SPAWN_SAFETY_MARGIN}px).`);
+    } else {
+        // Se não houve colisão, adiciona o lixo ao jogo.
+        lixos.push(newLixo);
+    }
 }
 
 /**
- * Cria um novo obstáculo aleatório.
- */
-/**
- * Cria um novo obstáculo aleatório, filtrando-o pela fase atual (urbano-poluido).
+ * Cria um novo obstáculo aleatório, filtrando-o pela fase atual (urbano-poluido) e verificando proximidade. (CORRIGIDO)
  */
 function spawnObstaculo() {
     // Verifica se a classe Obstaculo e os tipos existem (vindos de obstaculo.js)
@@ -285,8 +313,45 @@ function spawnObstaculo() {
 
     // 2. Passa o objeto de dados INTEIRO para o construtor
     const newObstaculo = new Obstaculo(typeData, gameArea);
+    
+    // ⭐ NOVO AJUSTE: VERIFICAÇÃO DE PROXIMIDADE (Obstáculo contra Lixos e outros Obstáculos)
+    let proximityDetected = false;
+    const obstaculoRect = newObstaculo.getBounds();
+    
+    // Checa proximidade contra TODOS os itens já spawnados (lixos e obstaculos)
+    const itemsToCheck = [...lixos, ...obstaculos];
+    
+    for (const item of itemsToCheck) {
+        const itemRect = item.getBounds();
+        
+        // Define a "área de proibição" expandida do item existente
+        const forbiddenArea = {
+            x: itemRect.x - SPAWN_SAFETY_MARGIN, 
+            width: itemRect.width + (SPAWN_SAFETY_MARGIN * 2), 
+            y: itemRect.y, 
+            height: itemRect.height 
+        };
+        
+        // Verifica a intersecção
+        const horizontalOverlap = obstaculoRect.x < forbiddenArea.x + forbiddenArea.width &&
+                                    obstaculoRect.x + obstaculoRect.width > forbiddenArea.x;
 
-    obstaculos.push(newObstaculo);
+        const verticalOverlap = obstaculoRect.y < forbiddenArea.y + forbiddenArea.height &&
+                                obstaculoRect.y + obstaculoRect.height > forbiddenArea.y;
+
+        if (horizontalOverlap && verticalOverlap) {
+            proximityDetected = true;
+            break; 
+        }
+    }
+
+    if (proximityDetected) {
+        // Se houve proximidade perigosa, remove o obstáculo criado.
+        newObstaculo.element.remove();
+        console.log(`Obstáculo removido devido à proximidade perigosa com outro item (margem de segurança: ${SPAWN_SAFETY_MARGIN}px).`);
+    } else {
+        obstaculos.push(newObstaculo);
+    }
 }
 // =========================================================
 // LÓGICA DO COUNTDOWN
@@ -298,9 +363,8 @@ function spawnObstaculo() {
 function runGameLogic() {
     gamePaused = false; // Permite que o jogo execute
     gameArea.style.animationPlayState = 'running'; // Retoma a animação CSS do cenário
-    initSpawn(); // Inicia o spawn de lixos e obstáculos
 
-    // === NOVO: INICIA A MÚSICA DE FUNDO AQUI ===
+    // === NOVO: INICIA MÚSICA DE FUNDO AQUI ===
     gerenciarMusicaFundo(true);
     // ============================================
 

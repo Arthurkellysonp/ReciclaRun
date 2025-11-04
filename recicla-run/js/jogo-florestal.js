@@ -1,4 +1,4 @@
-// Arquivo: js/jogo-florestal.js (Cópia e adaptação do jogo-urbano.js)
+// Arquivo: js/jogo-florestal.js (Cópia e adaptação do jogo-urbano.js com LÓGICA DE PROXIMIDADE CORRIGIDA)
 
 // =========================================================
 // VARIÁVEIS DE ELEMENTOS (AJUSTADAS PARA A FASE FLORESTAL)
@@ -39,7 +39,7 @@ const audioMusicaFundoMar = new Audio('../public/assets/sons/fundo-do-mar.mp3');
 
 const musicasFundo = {
     'urbano-poluido': audioMusicaFundoUrbano,
-    'florestal': audioMusicaFundoFloresta, // NOVO: Chave 'floresta'
+    'florestal': audioMusicaFundoFloresta, // NOVO: Chave 'florestal'
     'oceano': audioMusicaFundoMar
 };
 // ==============================================
@@ -117,13 +117,16 @@ let spawnTimer = 0;
 let obstaculoSpawnTimer = 0;
 
 const SPAWN_INTERVAL = 150;
-const OBSTACULO_SPAWN_INTERVAL = 300;
-const SCROLL_SPEED = 7;
+const OBSTACULO_SPAWN_INTERVAL = 150;
+const SCROLL_SPEED = 9;
 
 const HITBOX_PADDING = 50;
 
+// ⭐ CONSTANTE DE SEGURANÇA (Adicionada)
+const SPAWN_SAFETY_MARGIN = 250; 
+
 // === MUDANÇA ESSENCIAL: VARIÁVEL GLOBAL PARA A FASE ===
-const FASE_ATUAL = 'florestal'; // MUDANÇA: Define a fase como 'floresta'
+const FASE_ATUAL = 'florestal'; // MUDANÇA: Define a fase como 'florestal'
 // ==========================================================
 
 /**
@@ -142,15 +145,6 @@ function updateHUD(type) {
     if (totalTrashCollected >= MAX_TRASH) {
         endGame();
     }
-}
-
-/**
- * Funções de inicialização do Spawn.
- */
-function initSpawn() {
-    spawnLixo();
-    spawnLixo();
-    spawnObstaculo();
 }
 
 /**
@@ -200,7 +194,6 @@ function restartPhase() {
 
     spawnTimer = 0;
     obstaculoSpawnTimer = 0;
-    initSpawn();
 
     // 7. Inicia a contagem (que retomará o gameLoop e a música)
     startCountdown(3);
@@ -237,33 +230,105 @@ function checkCollision(item) {
 }
 
 /**
- * Cria um novo lixo aleatório.
+ * Cria um novo lixo aleatório, verificando proximidade de obstáculos.
  */
 function spawnLixo() {
     if (typeof LIXO_TYPES === 'undefined' || LIXO_TYPES.length === 0) return;
 
     const typeData = LIXO_TYPES[Math.floor(Math.random() * LIXO_TYPES.length)];
     const newLixo = new Lixo(typeData.type, typeData.src, gameArea);
-    lixos.push(newLixo);
+    
+    // ⭐ LÓGICA DE PROXIMIDADE CORRIGIDA (Lixo contra Obstáculos)
+    let proximityDetected = false;
+    const lixoRect = newLixo.getBounds();
+    
+    for (const obstaculo of obstaculos) {
+        const obstaculoRect = obstaculo.getBounds();
+        
+        // Define a "área de proibição" expandida do obstáculo
+        const forbiddenArea = {
+            x: obstaculoRect.x - SPAWN_SAFETY_MARGIN, 
+            width: obstaculoRect.width + (SPAWN_SAFETY_MARGIN * 2), 
+            y: obstaculoRect.y, 
+            height: obstaculoRect.height 
+        };
+        
+        // Verifica a intersecção 
+        const horizontalOverlap = lixoRect.x < forbiddenArea.x + forbiddenArea.width &&
+                                  lixoRect.x + lixoRect.width > forbiddenArea.x;
+
+        const verticalOverlap = lixoRect.y < forbiddenArea.y + forbiddenArea.height &&
+                                lixoRect.y + lixoRect.height > forbiddenArea.y;
+
+        if (horizontalOverlap && verticalOverlap) {
+            proximityDetected = true;
+            break;
+        }
+    }
+
+    if (proximityDetected) {
+        newLixo.element.remove();
+        console.log(`Lixo removido devido à proximidade perigosa com obstáculo (margem de segurança: ${SPAWN_SAFETY_MARGIN}px).`);
+    } else {
+        lixos.push(newLixo);
+    }
 }
 
 /**
- * Cria um novo obstáculo aleatório.
+ * Cria um novo obstáculo aleatório, verificando proximidade de Lixos e outros Obstáculos.
  */
 function spawnObstaculo() {
     if (typeof Obstaculo === 'undefined' || typeof OBSTACULO_TYPES === 'undefined' || OBSTACULO_TYPES.length === 0) return;
 
-    // 🎯 CORREÇÃO CRUCIAL: Filtra o array global para incluir APENAS obstáculos da fase atual.
+    // 🎯 Filtra o array global para incluir APENAS obstáculos desta fase.
     const faseTipos = OBSTACULO_TYPES.filter(obs => obs.fase === FASE_ATUAL);
 
     // Se não houver tipos para esta fase, interrompe.
     if (faseTipos.length === 0) return;
 
-    // Seleciona um obstáculo aleatório da lista filtrada (somente floresta).
+    // 1. Seleciona um obstáculo aleatório da lista filtrada.
     const typeData = faseTipos[Math.floor(Math.random() * faseTipos.length)];
     const newObstaculo = new Obstaculo(typeData, gameArea);
 
-    obstaculos.push(newObstaculo);
+    // ⭐ LÓGICA DE PROXIMIDADE ADICIONADA: Checa contra Lixos e outros Obstáculos
+    let proximityDetected = false;
+    const obstaculoRect = newObstaculo.getBounds();
+    
+    // Checa proximidade contra TODOS os itens já spawnados
+    const itemsToCheck = [...lixos, ...obstaculos];
+    
+    for (const item of itemsToCheck) {
+        const itemRect = item.getBounds();
+        
+        // Define a "área de proibição" expandida do item existente
+        const forbiddenArea = {
+            x: itemRect.x - SPAWN_SAFETY_MARGIN, 
+            width: itemRect.width + (SPAWN_SAFETY_MARGIN * 2), 
+            y: itemRect.y, 
+            height: itemRect.height 
+        };
+        
+        // Verifica a intersecção
+        const horizontalOverlap = obstaculoRect.x < forbiddenArea.x + forbiddenArea.width &&
+                                  obstaculoRect.x + obstaculoRect.width > forbiddenArea.x;
+
+        const verticalOverlap = obstaculoRect.y < forbiddenArea.y + forbiddenArea.height &&
+                                obstaculoRect.y + obstaculoRect.height > forbiddenArea.y;
+
+        if (horizontalOverlap && verticalOverlap) {
+            proximityDetected = true;
+            break; 
+        }
+    }
+
+    if (proximityDetected) {
+        // Se houve proximidade perigosa, remove o obstáculo criado.
+        newObstaculo.element.remove();
+        console.log(`Obstáculo removido devido à proximidade perigosa com outro item (margem de segurança: ${SPAWN_SAFETY_MARGIN}px).`);
+    } else {
+        // Se não houve colisão ou proximidade, adiciona o obstáculo ao jogo.
+        obstaculos.push(newObstaculo);
+    }
 }
 
 // =========================================================
@@ -276,7 +341,6 @@ function spawnObstaculo() {
 function runGameLogic() {
     gamePaused = false;
     gameArea.style.animationPlayState = 'running';
-    initSpawn();
 
     // INICIA A MÚSICA DE FUNDO
     gerenciarMusicaFundo(true);
@@ -429,10 +493,10 @@ function endGame() {
 
     localStorage.setItem('collectedTrashCounts', JSON.stringify(collectedData));
 
-    // SALVA O TEMA DA FASE (FLORESTA) PARA O BACKGROUND NA CLASSIFICAÇÃO
+    // SALVA O TEMA DA FASE (FLORESTAL) PARA O BACKGROUND NA CLASSIFICAÇÃO
     localStorage.setItem('faseConcluida', FASE_ATUAL);
 
-        // NOVO: Salva a chave da FASE POLUÍDA atual para o inventario.js usar
+    // NOVO: Salva a chave da FASE POLUÍDA atual para o inventario.js usar
     localStorage.setItem('faseAtualPoluida', `${FASE_ATUAL}-poluido`);
 
     // E, para o background da classificação, use a fase poluída correta:

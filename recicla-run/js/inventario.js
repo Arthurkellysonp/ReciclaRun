@@ -37,23 +37,20 @@ let lixoSendoArrastado = null; // Elemento do lixo sendo arrastado
 
 
 // =========================================================
-// CONFIGURAÇÕES DE TRANSIÇÃO DINÂMICA (CORRIGIDO)
+// CONFIGURAÇÕES DE TRANSIÇÃO DINÂMICA
 // =========================================================
 
 // Mapeamento da fase POLUÍDA (atual) para a fase LIMPA (próxima)
 const FASES_TRANSICAO = {
     'urbano-poluido': 'urbano-limpo',
     'florestal-poluido': 'florestal-limpo',
-    // ✅ CORRIGIDO: Padronizado para 'oceano-poluido' (sem 'ni')
     'oceano-poluido': 'oceano-limpo',
 };
 
 // Mapeamento da fase LIMPA para o URL do PRÓXIMO JOGO REAL
 const PROXIMAS_URLS_REAIS = {
     'urbano-limpo': '../telas/jogo-florestal.html',
-    // ✅ CORRIGIDO: Padronizado para minúsculas e hífens
     'florestal-limpo': '../telas/jogo-oceano.html',
-    // ✅ CORRIGIDO: Padronizado para o final. Mantendo rankingFinal.html
     'oceano-limpo': '../telas/final.html' // URL de destino final
 };
 
@@ -90,7 +87,7 @@ function playLixoErroSound() {
 
 
 // =========================================================
-// FUNÇÃO PARA BACKGROUND DINÂMICO (CORRIGIDA)
+// FUNÇÃO PARA BACKGROUND DINÂMICO
 // =========================================================
 
 /**
@@ -122,6 +119,18 @@ function setClassificationBackground() {
 // =========================================================
 // FUNÇÕES DE UTILIDADE E MENSAGEM
 // =========================================================
+
+/**
+ * Embaralha um array in-place (Algoritmo Fisher-Yates).
+ * @param {Array} array - O array a ser embaralhado.
+ */
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 
 /**
  * Exibe a mensagem educativa e depois a esconde.
@@ -157,12 +166,13 @@ function showEducationalMessage(message, isCorrect = false) {
 /**
  * Mapeia os contadores da Fase 1 em objetos de lixo específico para injeção.
  * @param {Object} counts - Contagem de lixo por tipo (ex: {plastic: 5, metal: 3})
- * @returns {Array} Lista de lixos individuais (ex: [{type: 'plastic', name: 'garrafa-plastico'}...])
+ * @returns {Array} Lista de lixos individuais (ex: ['Garrafa de Plástico', 'Lata de Refrigerante', ...])
  */
 function mapCountsToLixoObjects(counts) {
     const lixosList = [];
     const availableLixos = Object.keys(LIXO_MAPPING);
 
+    // Esta lógica ainda agrupa os lixos, mas não tem problema, pois serão embaralhados depois.
     for (const type of LIXEIRA_TYPES) {
         let count = counts[type] || 0;
 
@@ -193,7 +203,10 @@ function loadInventoryAndSetupClassification() {
     }
 
     const collectedData = JSON.parse(collectedDataRaw);
-    const lixosToInject = mapCountsToLixoObjects(collectedData);
+    let lixosToInject = mapCountsToLixoObjects(collectedData);
+    
+    // ⭐ AJUSTE: Embaralha a lista para que os lixos não fiquem agrupados por tipo.
+    shuffleArray(lixosToInject);
 
     lixosInventario.innerHTML = '';
     lixosRestantes = lixosToInject.length;
@@ -302,7 +315,7 @@ function setupDragAndDrop() {
 }
 
 // =========================================================
-// LÓGICA DE REDIRECIONAMENTO PARA O CENÁRIO LIMPO (NOVO)
+// LÓGICA DE REDIRECIONAMENTO PARA O CENÁRIO LIMPO
 // =========================================================
 /**
  * Calcula a próxima fase, salva as chaves de transição e redireciona para a tela de transição.
