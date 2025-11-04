@@ -76,8 +76,8 @@ html, body {
 }
 
 .section-title {
-    font-family: inherit; /* Garante que a fonte seja consistente */
-    font-size: 1.8em;
+    font-family: 'Poppins', sans-serif; /* Garante que a fonte seja consistente */
+    font-size: 1.5em;
     font-weight: 800;
     color: #ffffff;
     border-bottom: 2px solid rgba(26, 83, 92, 0.3);
@@ -93,37 +93,58 @@ html, body {
 #lixeiras-area {
     flex: 2; 
     display: flex;
-    flex-direction: column; /* Para empilhar o título e o grid de lixeiras */
+    flex-direction: column; 
     align-items: center;
-    padding: 25px; /* Adicionado padding para respeitar o glass-panel */
+    padding: 5px; 
 }
 
 /* NOVO: Estilo para o grid de lixeiras (o .lixeiras-grid no HTML) */
 .lixeiras-grid {
     display: flex;
-    flex-direction: row; /* Coloca os cards de lixeira lado a lado */
-    flex-wrap: wrap; /* Permite quebras de linha se não houver espaço */
-    justify-content: space-around; /* Distribui os cards uniformemente */
-    align-items: flex-start; /* Alinha os cards ao topo */
-    gap: 5px; /* Espaçamento entre os cards das lixeiras */
-    width: 100%; /* Ocupa a largura total disponível */
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    justify-content: space-around; 
+    align-items: flex-start; 
+    gap: 5px; 
+    width: 100%; 
     flex-grow: 1; /* Permite que o grid ocupe o espaço restante */
+    
+    /* 🟢 NOVO: ADICIONA A ROLAGEM VERTICAL */
+    overflow-y: auto;
+    /* Estilo para a barra de rolagem (WebKit/Chrome/Safari) */
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: rgba(26, 83, 92, 0.5);
+        border-radius: 4px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    /* Estilo para a barra de rolagem (Firefox) */
+    scrollbar-width: thin; 
+    scrollbar-color: rgba(26, 83, 92, 0.5) transparent;
 }
 
 .lixeira-target {
     /* TRANSFORMA CADA LIXEIRA EM UM CARD NO ESTILO SOLICITADO */
     display: flex;
-    flex-direction: column; /* Ícone em cima, texto em baixo */
-    align-items: center; /* Centraliza o conteúdo (ícone e texto) */
-    justify-content: center; /* Centraliza verticalmente o conteúdo */
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
     
-    width: 180px; /* Largura fixa para cada card de lixeira (como os quadrados vermelhos) */
-    min-height: 180px; /* Altura mínima para que todos tenham um tamanho similar */
-    padding: 0px; /* Padding interno do card */
-    gap: 0px; /* Espaço entre o ícone e o texto */
+    width: 180px; 
+    min-height: 180px; 
+    padding: 0px; 
+    gap: 0px; 
+    
+    /* 🟢 AJUSTE: Permite que o card encolha se o espaço for muito limitado, 
+       mantendo a responsividade, mas prioriza a largura. */
+    flex-shrink: 0; 
     
     background: rgba(255, 255, 255, 0); 
-    border: 3px dashed transparent; /* Borda dashed inicial */
+    border: 3px dashed transparent; 
     border-radius: 15px; 
     transition: all 0.3s ease;
     cursor: default;
@@ -143,10 +164,10 @@ html, body {
 }
 
 .lixeira-text {
-    font-weight: bold; 
+    font-family: 'Poppins', sans-serif; /* Garante que a fonte seja consistente */
     color: #ffffff; 
     text-shadow: 0 1px 1px rgb(255, 255, 255);
-    font-size: 1.1em; 
+    font-size: 1.0em; 
     margin: 0;
 }
 
@@ -165,7 +186,7 @@ html, body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding-top: 25px; /* Mantém o padding consistente */
+    padding-top: 5px; /* Mantém o padding consistente */
 }
 
 #inventory-area h2 {

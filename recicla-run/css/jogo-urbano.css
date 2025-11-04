@@ -145,6 +145,7 @@ body.game-body {
     padding: 5px 10px;
     border-radius: 8px;
     background: rgba(78, 205, 196, 0.5);
+    font-family: 'Poppins', sans-serif; /* Garante que a fonte seja consistente */
 }
 
 
@@ -180,9 +181,10 @@ body.game-body {
 
 .count-value {
     color: white;
-    font-size: 1.5em;
+    font-size: 1.2em;
     font-weight: 800;
     text-shadow: 0 0 3px black;
+    font-family: 'Poppins', sans-serif; /* Garante que a fonte seja consistente */
 }
 
 
@@ -255,6 +257,7 @@ body.game-body {
     width: 90%;
     max-width: 450px;
     padding: 35px;
+    font-family: 'Poppins', sans-serif; /* Garante que a fonte seja consistente */
 
     /* GLASSMORPHISM - CORES CLARAS COMO OS CARDS DA TELA INICIAL */
     background: rgba(255, 255, 255, 0.95);

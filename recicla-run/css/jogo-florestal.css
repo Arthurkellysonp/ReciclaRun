@@ -70,7 +70,7 @@ body.game-body {
     /* Altura da área de jogo (abaixo do HUD de 50px) */
     height: calc(100% - 50px);
     position: absolute;
-    top: 50px;
+    top: 0px;
     /* Coloca a área de jogo abaixo do HUD */
     left: 0;
     overflow: hidden;
@@ -136,6 +136,8 @@ body.game-body {
 #score {
     padding: 5px 10px;
     border-radius: 8px;
+    font-family: 'Poppins', sans-serif; /* Garante que a fonte seja consistente */
+
     /* MUDANÇA: Cor de destaque do score para um verde floresta */
     background: rgba(106, 179, 100, 0.7);
 }
@@ -170,12 +172,12 @@ body.game-body {
 
 .count-value {
     color: white;
-    font-size: 1.5em;
+    font-size: 1.2em;
     font-weight: 800;
     text-shadow: 0 0 3px black;
+    font-family: 'Poppins', sans-serif; /* Garante que a fonte seja consistente */
 }
-
-
+ 
 /* ------------------------------------------------ */
 /* RESPONSIVIDADE (Mantido) */
 /* ------------------------------------------------ */
@@ -238,6 +240,7 @@ body.game-body {
     width: 90%;
     max-width: 450px;
     padding: 35px;
+    font-family: 'Poppins', sans-serif; /* Garante que a fonte seja consistente */
 
     background: rgba(255, 255, 255, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.4);
@@ -271,6 +274,7 @@ body.game-body {
 .modal-content h2 {
     font-size: 2.2em;
     font-weight: 900;
+
     margin-bottom: 10px;
 
     /* Cor de Alerta/Perigo (Mantida: Preto para Game Over) */
