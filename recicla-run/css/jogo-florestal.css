@@ -81,8 +81,6 @@ body.game-body {
 .lixo-item {
     transition: none;
     z-index: 20;
-    /* Mantido: Brilho padrão para destaque */
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.442));
 }
 
 /* ------------------------------------------------ */

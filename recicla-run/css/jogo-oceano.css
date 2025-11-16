@@ -84,8 +84,6 @@ body.game-body {
 .lixo-item {
     transition: none;
     z-index: 20;
-    /* 🎯 AJUSTE: Filtro para dar um brilho aquático/submerso */
-    filter: drop-shadow(0 0 5px rgba(148, 210, 189, 0.6));
 }
 
 /* ------------------------------------------------ */
