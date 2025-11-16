@@ -17,6 +17,15 @@ const TEMPO_PARA_TRANSICAO = 4000; // 4 segundos de espera antes de redirecionar
 // Tipos de lixeira (DEVEM CORRESPONDER AO data-type NO HTML)
 const LIXEIRA_TYPES = ['plastic', 'metal', 'paper', 'glass', 'organic'];
 
+// NOVO: Dicionário para traduzir tipos internos (inglês) para exibição (português)
+const LIXEIRA_TRADUCAO = {
+    'plastic': 'PLÁSTICO',
+    'metal': 'METAL',
+    'paper': 'PAPEL',
+    'glass': 'VIDRO',
+    'organic': 'ORGÂNICO'
+};
+
 // Mapeamento de Lixo -> Tipo de lixeira
 const LIXO_MAPPING = {
     // NOME DESCRITIVO              { type: 'TIPO_PADRÃO', src: 'NomeDoArquivoReal.png' },
@@ -211,7 +220,7 @@ function loadInventoryAndSetupClassification() {
     lixosInventario.innerHTML = '';
     lixosRestantes = lixosToInject.length;
 
-    // A. Cria os elementos de lixo com base na lista gerada
+    // A. Cria os elementos de lixo com base na lista generada
     lixosToInject.forEach(lixoName => {
         const lixoData = LIXO_MAPPING[lixoName];
         if (!lixoData) return;
@@ -288,6 +297,11 @@ function setupDragAndDrop() {
             if (lixoSendoArrastado) {
                 const lixoTypeCorreto = lixoSendoArrastado.getAttribute('data-type');
                 const lixoName = lixoSendoArrastado.getAttribute('data-lixo-name');
+                
+                // Mapeia os tipos em inglês para português para exibição
+                const nomeLixeiraPT = LIXEIRA_TRADUCAO[lixeiraType] || lixeiraType;
+                const nomeTipoCorretoPT = LIXEIRA_TRADUCAO[lixoTypeCorreto] || lixoTypeCorreto;
+
 
                 // --- VERIFICAÇÃO DE CLASSIFICAÇÃO ---
                 if (lixoTypeCorreto === lixeiraType) {
@@ -295,7 +309,8 @@ function setupDragAndDrop() {
                     lixoSendoArrastado.remove();
                     lixosRestantes--;
 
-                    showEducationalMessage(`Acerto! O item '${lixoName}' foi corretamente para a lixeira de ${lixeiraType.toUpperCase()}.`, true);
+                    // Usa a tradução em português
+                    showEducationalMessage(`Acerto! O item '${lixoName}' foi corretamente para a lixeira de ${nomeLixeiraPT}.`, true);
 
                     if (lixosRestantes === 0) {
                         finishButton.classList.remove('hidden');
@@ -306,7 +321,8 @@ function setupDragAndDrop() {
                     }
                 } else {
                     // Errado
-                    const mensagem = `Erro! O item '${lixoName}' é do tipo ${lixoTypeCorreto.toUpperCase()} e deve ir para a lixeira ${lixoTypeCorreto.toUpperCase()}. Tente novamente.`;
+                    // Usa a tradução em português
+                    const mensagem = `Erro! O item '${lixoName}' é do tipo ${nomeTipoCorretoPT} e deve ir para a lixeira de ${nomeTipoCorretoPT}. Tente novamente.`;
                     showEducationalMessage(mensagem, false);
                 }
             }
