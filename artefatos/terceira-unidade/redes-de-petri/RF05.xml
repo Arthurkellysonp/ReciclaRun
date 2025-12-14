@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pnml>
+    <net>
+        <token id="Default" red="0" green="0" blue="0"/>
+        
+        <!-- Lugares -->
+        <place id="P1">
+            <graphics>
+                <position x="100.0" y="150.0"/>
+            </graphics>
+            <name>
+                <value>Lixo Coletado no Inventário</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>1</value>
+            </initialMarking>
+        </place>
+        
+        <place id="P2">
+            <graphics>
+                <position x="250.0" y="150.0"/>
+            </graphics>
+            <name>
+                <value>Jogador Próximo à Lixeira</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>0</value>
+            </initialMarking>
+        </place>
+        
+        <place id="P3">
+            <graphics>
+                <position x="400.0" y="150.0"/>
+            </graphics>
+            <name>
+                <value>Lixeira Identificada</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>0</value>
+            </initialMarking>
+        </place>
+        
+        <place id="P4">
+            <graphics>
+                <position x="550.0" y="100.0"/>
+            </graphics>
+            <name>
+                <value>Classificação em Processo</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>0</value>
+            </initialMarking>
+        </place>
+        
+        <place id="P5">
+            <graphics>
+                <position x="700.0" y="50.0"/>
+            </graphics>
+            <name>
+                <value>Lixo Classificado Corretamente</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>0</value>
+            </initialMarking>
+        </place>
+        
+        <place id="P6">
+            <graphics>
+                <position x="700.0" y="250.0"/>
+            </graphics>
+            <name>
+                <value>Lixo Classificado Incorretamente</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>0</value>
+            </initialMarking>
+        </place>
+        
+        <place id="P7">
+            <graphics>
+                <position x="850.0" y="50.0"/>
+            </graphics>
+            <name>
+                <value>Cenário Atualizado Positivamente</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>0</value>
+            </initialMarking>
+        </place>
+        
+        <place id="P8">
+            <graphics>
+                <position x="850.0" y="250.0"/>
+            </graphics>
+            <name>
+                <value>Opção de Nova Tentativa</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <capacity>
+                <value>0</value>
+            </capacity>
+            <initialMarking>
+                <graphics>
+                    <offset x="0.0" y="0.0"/>
+                </graphics>
+                <value>0</value>
+            </initialMarking>
+        </place>
+        
+        <!-- Transições -->
+        <transition id="T1">
+            <graphics>
+                <position x="175.0" y="150.0"/>
+            </graphics>
+            <name>
+                <value>Aproximar da Lixeira</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        
+        <transition id="T2">
+            <graphics>
+                <position x="325.0" y="150.0"/>
+            </graphics>
+            <name>
+                <value>Identificar Tipo de Lixeira</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        
+        <transition id="T3">
+            <graphics>
+                <position x="475.0" y="150.0"/>
+            </graphics>
+            <name>
+                <value>Iniciar Classificação</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        
+        <transition id="T4">
+            <graphics>
+                <position x="625.0" y="50.0"/>
+            </graphics>
+            <name>
+                <value>Validar Classificação (correta)</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        
+        <transition id="T5">
+            <graphics>
+                <position x="625.0" y="250.0"/>
+            </graphics>
+            <name>
+                <value>Validar Classificação (incorreta)</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        
+        <transition id="T6">
+            <graphics>
+                <position x="775.0" y="50.0"/>
+            </graphics>
+            <name>
+                <value>Atualizar Cenário Positivamente</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        
+        <transition id="T7">
+            <graphics>
+                <position x="775.0" y="250.0"/>
+            </graphics>
+            <name>
+                <value>Oferecer Nova Tentativa</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        
+        <transition id="T8">
+            <graphics>
+                <position x="475.0" y="300.0"/>
+            </graphics>
+            <name>
+                <value>Tentar Novamente</value>
+                <graphics>
+                    <offset x="-5.0" y="35.0"/>
+                </graphics>
+            </name>
+            <infiniteServer>
+                <value>false</value>
+            </infiniteServer>
+            <timed>
+                <value>false</value>
+            </timed>
+            <priority>
+                <value>1</value>
+            </priority>
+            <orientation>
+                <value>0</value>
+            </orientation>
+            <rate>
+                <value>1</value>
+            </rate>
+        </transition>
+        
+        <!-- Arcos -->
+        <arc id="A1" source="P1" target="T1">
+            <arcpath id="" x="125.0" y="150.0" curvePoint="false"/>
+            <arcpath id="" x="175.0" y="150.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        
+        <arc id="A2" source="T1" target="P2">
+            <arcpath id="" x="200.0" y="150.0" curvePoint="false"/>
+            <arcpath id="" x="250.0" y="150.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        
+        <arc id="A3" source="P2" target="T2">
+            <arcpath id="" x="275.0" y="150.0" curvePoint="false"/>
+            <arcpath id="" x="325.0" y="150.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        
+        <arc id="A4" source="T2" target="P3">
+            <arcpath id="" x="350.0" y="150.0" curvePoint="false"/>
+            <arcpath id="" x="400.0" y="150.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        
+        <arc id="A5" source="P3" target="T3">
+            <arcpath id="" x="425.0" y="150.0" curvePoint="false"/>
+            <arcpath id="" x="475.0" y="150.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        
+        <arc id="A6" source="T3" target="P4">
+            <arcpath id="" x="500.0" y="150.0" curvePoint="false"/>
+            <arcpath id="" x="550.0" y="100.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        
+        <arc id="A7" source="P4" target="T4">
+            <arcpath id="" x="575.0" y="100.0" curvePoint="false"/>
+            <arcpath id="" x="625.0" y="50.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        
+        <arc id="A8" source="P4" target="T5">
+            <arcpath id="" x="575.0" y="125.0" curvePoint="false"/>
+            <arcpath id="" x="625.0" y="250.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        
+        <arc id="A9" source="T4" target="P5">
+            <arcpath id="" x="650.0" y="50.0" curvePoint="false"/>
+            <arcpath id="" x="700.0" y="50.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        
+        <arc id="A10" source="T5" target="P6">
+            <arcpath id="" x="650.0" y="250.0" curvePoint="false"/>
+            <arcpath id="" x="700.0" y="250.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        
+        <arc id="A11" source="P5" target="T6">
+            <arcpath id="" x="725.0" y="50.0" curvePoint="false"/>
+            <arcpath id="" x="775.0" y="50.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        
+        <arc id="A12" source="P6" target="T7">
+            <arcpath id="" x="725.0" y="250.0" curvePoint="false"/>
+            <arcpath id="" x="775.0" y="250.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        
+        <arc id="A13" source="T6" target="P7">
+            <arcpath id="" x="800.0" y="50.0" curvePoint="false"/>
+            <arcpath id="" x="850.0" y="50.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        
+        <arc id="A14" source="T7" target="P8">
+            <arcpath id="" x="800.0" y="250.0" curvePoint="false"/>
+            <arcpath id="" x="850.0" y="250.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        
+        <!-- Ciclo de retorno para nova tentativa -->
+        <arc id="A15" source="P8" target="T8">
+            <arcpath id="" x="850.0" y="275.0" curvePoint="false"/>
+            <arcpath id="" x="475.0" y="300.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+        
+        <arc id="A16" source="T8" target="P3">
+            <arcpath id="" x="475.0" y="325.0" curvePoint="false"/>
+            <arcpath id="" x="400.0" y="175.0" curvePoint="false"/>
+            <type value="normal"/>
+            <inscription>
+                <value>Default,1</value>
+            </inscription>
+        </arc>
+    </net>
+</pnml>
